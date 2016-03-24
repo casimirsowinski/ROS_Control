@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robo_description
+    relative_path: urdf/CURRENTFILE.urdf
+  SRDF:
+    relative_path: config/inmoov_v1.srdf
+  CONFIG:
+    generated_timestamp: 1458291548

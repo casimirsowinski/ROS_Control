@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<robot name="inmoov_v1" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--  -->
+
+  <!-- Materials -->
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 0.8"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.5 0.0 0.8"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1.0 1.0 0.0 0.8"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 1.0 0.0 0.8"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 1.0 0.8"/>
+  </material>
+  <material name="indigo">
+    <color rgba="0.294 0.0 0.510 0.8"/>
+  </material>
+  <material name="violet">
+    <color rgba="0.561 0.0 1.0 0.8"/>
+  </material>
+  <material name="realsensecolor">
+    <color rgba="0.141 0.529 0.757 0.8"/>
+  </material>
+  <!-- Variables  -->
+  <property name="pi" value="3.1415926"/>    
+  <property name="mesh_scale" value="0.001" />  
+  
+  <property name="pole_size_x" value="0.01" />
+  <property name="pole_size_y" value="0.01" />
+  <property name="pole_size_z" value="0.20" />
+  <property name="pole_offset_x" value="0.142" />
+  <property name="pole_offset_y" value="0.0286" />
+  <property name="pole_offset_z" value="-0.05" />
+
+  <property name="camera_size_x" value="0.05" />
+  <property name="camera_size_y" value="0.01" />
+  <property name="camera_size_z" value="0.01" />
+  <property name="camera_offset_x" value="0.142" />
+  <property name="camera_offset_y" value="0.0286" />
+  <property name="camera_offset_z" value="0.020" />
+  
+<!-- Body Parts -->
+  <!-- Base -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Inmoov_Baselink_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Base.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Shoulder_A -->
+  <link name="shoulder_a_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Inmoov_ShoulderA_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_ShoulderA.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="arm_out_joint" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
+    <parent link="base_link"/>
+    <child link="shoulder_a_link"/>
+  </joint>
+  <!-- Shoulder_B -->
+  <link name="shoulder_b_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>        
+        <mesh filename="package://robo_description/meshes/Inmoov_ShoulderB_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_ShoulderB.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="arm_fwd_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
+    <parent link="shoulder_a_link"/>
+    <child link="shoulder_b_link"/>
+  </joint>
+  <!-- Biceps -->
+  <link name="biceps_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".0775382 .00106347 .0976646"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Inmoov_Biceps_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz=".0775382 .00106347 .0976646"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Biceps.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="arm_rotate_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="-.0775382 -.00106347 -.0976646"/>
+    <limit effort="1000.0" lower="-1.5707963" upper="1.5707963" velocity="0.5"/>
+    <parent link="shoulder_b_link"/>
+    <child link="biceps_link"/>
+  </joint>
+  <!-- Forearm -->
+  <link name="forearm_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".078261 -.027094 .322299"/>
+      <geometry>        
+        <mesh filename="package://robo_description/meshes/Inmoov_Forearm_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz=".078261 -.027094 .322299"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Forearm.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="elbow_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="-.0007228 .02815747 -.2246344"/>
+    <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
+    <parent link="biceps_link"/>
+    <child link="forearm_link"/>
+  </joint>
+  <!-- Wrist/Hand -->
+  <link name="wrist_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".068289 -.03942 .611017"/>
+      <geometry>        
+        <mesh filename="package://robo_description/meshes/Inmoov_Hand_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="indigo"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz=".068289 -.03942 .611017"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Hand_02.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="wrist_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/>
+    <limit effort="1000.0" lower="0.0" upper="3.1415926" velocity="0.5"/>
+    <parent link="forearm_link"/>
+    <child link="wrist_link"/>
+  </joint>
+<!-- Index Finger -->
+  <link name="index_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".102137 -.037759 .730393"/>
+      <geometry>        
+        <mesh filename="package://robo_description/meshes/Inmoov_Index.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz=".102137 -.037759 .730393"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Index.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="index_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="-.033848 -.001661 -.119376"/>
+    <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+    <parent link="wrist_link"/>
+    <child link="index_link"/>
+  </joint>
+<!-- Thumb Finger -->
+  <link name="thumb_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".126567 -.038285 .679538"/>
+      <geometry>        
+        <mesh filename="package://robo_description/meshes/Inmoov_Thumb.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz=".126567 -.038285 .679538"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/Collision_Thumb.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thumb_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="-.058278 -.001135 -.068521"/>
+    <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+    <parent link="wrist_link"/>
+    <child link="thumb_link"/>
+  </joint>
+<!-- Realsense sensor -->
+  <!-- Pole -->
+  <link name="pole_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="${pole_offset_x} ${pole_offset_y} ${pole_offset_z}"/>
+      <geometry>
+        <box size="${pole_size_x} ${pole_size_y} ${pole_size_z}" />
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${pole_size_x} ${pole_size_y} ${pole_size_z}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="pole_base_joint" type="prismatic">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="${pole_size_z}" velocity="0.5"/>
+    <parent link="base_link"/>
+    <child link="pole_link"/>
+  </joint>
+  <!-- Camera -->
+  <link name="camera_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/RealSense.STL" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+      </geometry>
+      <material name="realsensecolor"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="camera_pole_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin rpy="0 0 0" xyz="${pole_offset_x-camera_offset_x} ${pole_offset_y-camera_offset_y} ${pole_offset_z-camera_offset_z}"/>
+    <limit effort="1000.0" lower="${0}" upper="${pi/4}" velocity="0.5"/>
+    <parent link="pole_link"/>
+    <child link="camera_link"/>
+  </joint>
+</robot>

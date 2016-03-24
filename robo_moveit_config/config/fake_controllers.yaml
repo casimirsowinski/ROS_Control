@@ -1,0 +1,17 @@
+controller_list:
+  - name: fake_right_arm_controller
+    joints:
+      - arm_out_joint
+      - arm_fwd_joint
+      - arm_rotate_joint
+      - elbow_joint
+      - wrist_joint
+  - name: fake_camera_controller
+    joints:
+      - pole_base_joint
+      - camera_pole_joint
+  - name: fake_right_hand_controller
+    joints:
+      - wrist_joint
+      - index_joint
+      - thumb_joint

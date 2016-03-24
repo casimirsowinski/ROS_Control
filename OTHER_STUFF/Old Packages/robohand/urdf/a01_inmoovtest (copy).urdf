@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot name="inmoov_v1">
+  <!--  -->
+
+  <!-- Materials -->
+  <material name="red">
+    <color rgba="1 0 0 .8"/>
+  </material>
+  <material name="orange">
+    <color rgba="1 .5 0 .8"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1 1 0 .8"/>
+  </material>
+  <material name="green">
+    <color rgba="0 1 0 .8"/>
+  </material>
+  <material name="blue">
+    <color rgba="0 0 1 .8"/>
+  </material>
+  <material name="indigo">
+    <color rgba=".294 0 .510 .8"/>
+  </material>
+  <material name="violet">
+    <color rgba=".561 0 1 .8"/>
+  </material>
+  <!-- Variables  -->
+  <property name="pi" value="3.1415926"/>  
+  
+  <!-- Body Parts -->
+  <!-- Base -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size=".4 .1 .1"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+  <!-- 1st shoulder part - up/down -->
+  <link name="shoulder_a_link">
+    <visual>
+      <origin rpy="0 0 0" xyz=".05 0 0.025"/>
+      <geometry>
+        <box size=".1 .1 .05"/>
+      </geometry>      
+      <material name="orange"/>
+    </visual>
+  </link>
+  <joint name="base_to_shoulder_a" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz=".2 0 .05"/>
+    <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+    <parent link="base_link"/>
+    <child link="shoulder_a_link"/>
+  </joint>
+
+  <!-- 2nd shoulder part - fwd/back -->
+  <link name="shoulder_b_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 .075"/>
+      <geometry>
+        <box size=".1 .1 .1"/>
+      </geometry>      
+      <material name="yellow"/>
+    </visual>
+  </link>
+  <joint name="shoulder_a_to_shoulder_b" type="revolute">
+    <axis xyz="0 0 -1"/>
+    <!-- half part size plus half parent size-->
+    <origin rpy="0 0 0" xyz=".05 0 0.025"/>
+    <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+    <parent link="shoulder_a_link"/>
+    <child link="shoulder_b_link"/>
+  </joint>
+
+  <!-- 3rd shoulder part - roll -->
+  <link name="shoulder_c_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size=".05 .1 .1"/>
+      </geometry>      
+      <material name="green"/>
+    </visual>
+  </link>
+  <joint name="shoulder_c_to_shoulder_b" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="${pi}" velocity="0.5"/>
+    <parent link="shoulder_b_link"/>
+    <child link="shoulder_c_link"/>
+  </joint>
+
+
+
+
+</robot>
