@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<robot name="pan_tilt_head" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <property name="pi" value="3.14159"/> 
+  <property name="scale" value="0.001" />
+
+  <property name="camera_offset_x" value="0.0" />
+  <property name="camera_offset_y" value="0.0" />
+  <property name="camera_offset_z" value="0.0" />   
+  
+  <!-- Define the camera -->
+  <macro name="camera" params="parent name color *origin">
+    <joint name="${parent}_${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+      <child link="${name}_link"/>
+    </joint>
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <mesh filename="package://robo_description/meshes/camera/vis/vis_camera_03.STL" scale="${scale} ${scale} ${scale}" />
+        </geometry>
+        <material name="${color}" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}" />
+        </geometry>
+      </collision>
+    </link>
+ 
+    <!-- Depth and RGB frames for tf transform trees -->
+    <!-- *Need to update values to reflect RealSense/arrangement --> 
+    <joint name="${name}_depth_joint" type="fixed">
+      <origin xyz="0 0.0 0.268" rpy="0 0 0" />
+      <parent link="${name}_link" />
+      <child link="${name}_depth_frame" />
+    </joint>
+
+    <link name="${name}_depth_frame">
+      <inertial>
+        <mass value="0.000001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="${name}_depth_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+      <parent link="${name}_depth_frame" />
+      <child link="${name}_depth_optical_frame" />
+    </joint>
+
+    <link name="${name}_depth_optical_frame">
+      <inertial>
+        <mass value="0.000001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="${name}_rgb_joint" type="fixed">
+      <origin xyz="0.05 0 0.268" rpy="0 0 0" />
+      <parent link="${name}_link" />
+      <child link="${name}_rgb_frame" />
+    </joint>
+
+    <link name="${name}_rgb_frame">
+      <inertial>
+        <mass value="0.000001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="${name}_rgb_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+      <parent link="${name}_rgb_frame" />
+      <child link="${name}_rgb_optical_frame" />
+    </joint>
+
+    <link name="${name}_rgb_optical_frame">
+      <inertial>
+        <mass value="0.000001" />
+       <origin xyz="0 0 0" />
+       <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                iyy="0.0001" iyz="0.0"
+                izz="0.0001" />
+      </inertial>
+    </link>
+  </macro>
+
+</robot>

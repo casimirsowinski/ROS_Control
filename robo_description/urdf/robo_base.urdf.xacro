@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<robot name="base" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Variables  -->
+  <property name="pi" value="3.14159"/>    
+  <property name="scale" value="0.001" />
+
+  <property name="base_offset_x" value="0.0" />
+  <property name="base_offset_y" value="0.0" />
+  <property name="base_offset_z" value="0.0" />
+ 
+  <!-- The base xacro macro -->
+  <macro name="base" params="name color">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robo_description/meshes/base/vis/vis_basewheels_03.STL" scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robo_description/meshes/base/col/col_basewheels_03.STL" scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="base_footprint">
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.05 0.05 0.001" />
+          </geometry>
+          <material name="TransparentGreen" />
+        </visual>
+    </link>
+  
+    <joint name="base_joint" type="fixed">
+      <origin xyz="${base_offset_x} ${base_offset_y} ${base_offset_z}" rpy="0 0 0" />        
+      <parent link="base_footprint"/>
+      <child link="base_link" />
+    </joint>
+
+  </macro>  
+
+</robot>

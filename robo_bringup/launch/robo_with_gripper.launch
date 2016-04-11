@@ -1,6 +1,6 @@
 <launch>
    
-<!-- This needs to be revised for our own robot 3/24 -->
+<!-- Revisions for our own project started on 4/1 -->
    
 
    <!-- Make sure we are not using simulated time -->
@@ -13,11 +13,11 @@
    <arg name="port" default="/dev/ttyUSB0" />
    
    <!-- Load the URDF/Xacro model of our robot -->
-   <param name="robot_description" command="$(find xacro)/xacro.py '$(find rbx2_description)/urdf/pi_robot/pi_robot_with_arm.xacro'" />
+   <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo_two_arms_camera.xacro'" />
    
    <!-- Bring up the arbotix driver with a configuration file appropriate to the robot -->
    <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
-      <rosparam file="$(find rbx2_dynamixels)/config/arbotix/pi_robot_with_gripper.yaml" command="load" />
+      <rosparam file="$(find robo_bringup)/config/robo_with_gripper.yaml" command="load" />
       <param name="sim" value="$(arg sim)" />
       <param name="port" value="$(arg port)" />
    </node>
@@ -32,7 +32,7 @@
          finger_length: 0.065
          min_opening: -0.8
          max_opening: 0.5
-         joint: right_gripper_finger_joint
+         joint: right_gripper_index_joint
       </rosparam>
    </node>
 
@@ -41,14 +41,14 @@
        <param name="publish_frequency" type="double" value="20.0" />
    </node>
    
-   <!-- Start all servos in a relaxed state -->
-   <node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)" />
+   <!-- Start all servos in a relaxed state 
+   <node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)" />  -->
    
-   <!-- Load diagnostics -->
+   <!-- Load diagnostics 
    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" clear_params="true" unless="$(arg sim)">
       <rosparam command="load" file="$(find rbx2_dynamixels)/config/dynamixel_diagnostics.yaml" />
    </node>
 
-   <node pkg="rqt_robot_monitor" type="rqt_robot_monitor" name="rqt_robot_monitor" unless="$(arg sim)" />
+   <node pkg="rqt_robot_monitor" type="rqt_robot_monitor" name="rqt_robot_monitor" unless="$(arg sim)" /> --> 
   
 </launch>

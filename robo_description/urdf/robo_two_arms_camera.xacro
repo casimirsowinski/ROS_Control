@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<robot name="robo_hand" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <property name="pi" value="3.14159"/> 
+
+  <property name="torso_offset_x" value="0.0" />
+  <property name="torso_offset_y" value="-0.026" />
+  <property name="torso_offset_z" value="1.255" />
+  <property name="torso_width" value="0.0" />
+
+  <property name="camera_offset_x" value="0.0" />
+  <property name="camera_offset_y" value="0.0" />
+  <property name="camera_offset_z" value="0.0" />
+
+  <property name="arm_offset_x" value="-0.143" />
+  <property name="arm_offset_y" value="0.0055" />
+  <property name="arm_offset_z" value="0.047" />
+  <!--property name="arm_offset_x" value="-0.143" /-->
+  <!--property name="arm_offset_y" value="-0.032" /-->
+  <!--property name="arm_offset_z" value="1.302" /-->
+
+  <!-- Include all component files -->
+  <xacro:include filename="$(find robo_description)/urdf/materials.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/robo_base.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/robo_torso.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/robo_camera.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/robo_arm.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/robo_gripper.urdf.xacro" />
+   
+  <!-- Now we can start using the macros included above to define the actual robot -->
+  <!-- Add the base and wheels -->
+  <base name="base" color="orange"/>
+
+  <!-- Attach the torso -->
+  <torso name="torso" parent="base" color="red">
+     <origin xyz="${torso_offset_x} ${torso_offset_y} ${torso_offset_z}" rpy="0 0 0" />
+  </torso>
+
+  <!-- Attach the camera -->
+  <camera name="head_base" parent="torso" color="yellow">
+    <origin xyz="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}" rpy="0 0 ${pi}" />
+  </camera>
+
+  <!-- Attach the right arm -->
+  <arm side="right" reflect="-1" parent="torso" color="green">
+    <origin xyz="${arm_offset_x} ${arm_offset_y} ${arm_offset_z}" rpy="0 0 0" />
+  </arm>
+    
+  <!-- Attach the right gripper -->
+  <gripper side="right" reflect="-1" parent="right_arm_wrist" color="blue">
+    <origin xyz="0 0 0" rpy="0 0 0" /> 
+  </gripper>
+   
+  <!-- Attach the left arm -->
+  <arm side="left" reflect="1" parent="torso" color="blue">
+    <origin xyz="${-arm_offset_x} ${arm_offset_y} ${arm_offset_z}" rpy="0 0 0" />
+  </arm>
+    
+  <!-- Attach the left gripper -->
+  <gripper side="left" reflect="1" parent="left_arm_wrist" color="blue">
+    <origin xyz="0 0 0" rpy="0 0 0" /> 
+  </gripper>
+
+</robot>
+
+

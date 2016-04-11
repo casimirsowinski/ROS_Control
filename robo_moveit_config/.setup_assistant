@@ -1,8 +1,8 @@
 moveit_setup_assistant_config:
   URDF:
     package: robo_description
-    relative_path: urdf/CURRENTFILE.urdf
+    relative_path: urdf/static_robo_two_arms.urdf
   SRDF:
-    relative_path: config/inmoov_v1.srdf
+    relative_path: config/robo_hand.srdf
   CONFIG:
-    generated_timestamp: 1458291548
+    generated_timestamp: 1458934881

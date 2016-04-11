@@ -1,0 +1,187 @@
+
+
+
+    <!-- shoulder pan -->
+    <bioloid_F2_fixed parent="${side}_arm_base" name="${side}_arm_shoulder_F2_0" color="${color}">
+      <origin xyz="0 0 0" rpy="${PI/2} 0 ${PI/2}" />
+    </bioloid_F2_fixed>
+    
+    <dynamixel_AX12_revolute parent="${side}_arm_shoulder_F2_0" name="${side}_arm_shoulder_pan" vlimit="3.14" llimit="-2.09" ulimit="2.09">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </dynamixel_AX12_revolute>
+
+
+
+
+    
+    <!-- shoulder lift -->
+    <bioloid_F3_fixed parent="${side}_arm_shoulder_pan" name="${side}_arm_shoulder_F3_0" color="${color}">
+      <origin xyz="0 0 ${-AX12_HEIGHT - 0.002}" rpy="0 ${PI} 0" />
+    </bioloid_F3_fixed>
+    
+    <dynamixel_AX12_revolute parent="${side}_arm_shoulder_F3_0" name="${side}_arm_shoulder_lift" vlimit="3.14" llimit="-3.14" ulimit="3.14">
+      <origin xyz="0 0.002 ${(AX12_WIDTH)/2}" rpy="${PI/2} ${PI} ${PI}" />
+      <axis xyz="0 1 0" />
+    </dynamixel_AX12_revolute>
+    
+    <!-- shoulder roll -->
+    <bioloid_F3_fixed parent="${side}_arm_shoulder_lift" name="${side}_arm_shoulder_F3_1" color="${color}">
+      <origin xyz="0 0 ${-AX12_HEIGHT - 0.002}" rpy="${PI} 0 0" />
+    </bioloid_F3_fixed>
+    
+    <dynamixel_AX12_revolute parent="${side}_arm_shoulder_F3_1" name="${side}_arm_shoulder_roll" vlimit="3.14" llimit="-3.14" ulimit="3.14">
+      <origin xyz="0 0 ${AX12_HEIGHT/2}" rpy="${-PI/2} 0 ${-PI/2}" />
+      <axis xyz="0 1 0" />
+    </dynamixel_AX12_revolute>
+    
+    <bioloid_F3_fixed parent="${side}_arm_shoulder_roll" name="${side}_arm_shoulder_roll_F3_0" color="${color}">
+      <origin xyz="${AX12_WIDTH/2} 0 ${-(AX12_DEPTH - F3_WIDTH)/2}" rpy="0 ${PI/2} 0" />
+    </bioloid_F3_fixed>
+
+    <bioloid_F9_fixed parent="${side}_arm_shoulder_roll_F3_0" name="${side}_arm_shoulder_roll_F9_0" color="${color}">
+      <origin xyz="0 ${-F9_DEPTH/2 - 0.000} ${-F9_DEPTH/2 + 0.004}" rpy="0 ${PI/2} 0" />
+    </bioloid_F9_fixed>
+    
+    <!-- elbow flex -->
+    <bioloid_F3_fixed parent="${side}_arm_shoulder_roll_F9_0" name="${side}_arm_elbow_F3_0" color="${color}">
+      <origin xyz="0 ${-AX12_HEIGHT/2 + 0.0035} 0" rpy="${PI/2} ${PI} ${PI}" />
+    </bioloid_F3_fixed>
+    
+    <dynamixel_AX12_fixed parent="${side}_arm_elbow_F3_0" name="${side}_arm_elbow_flex_servo">
+      <origin xyz="0 0 ${-(AX12_WIDTH + F3_HEIGHT/2)}" rpy="0 ${PI} 0" />
+    </dynamixel_AX12_fixed>
+    
+    <bioloid_F2_revolute parent="${side}_arm_elbow_flex_servo" name="${side}_arm_elbow_flex" color="${color}" vlimit="3.14" llimit="-1.75" ulimit="1.75">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </bioloid_F2_revolute>
+    
+    <!-- forearm flex -->
+    <bioloid_F3_fixed parent="${side}_arm_elbow_flex" name="${side}_arm_forearm_F3_0" color="${color}">
+      <origin xyz="0 0 ${AX12_HEIGHT/2 + F3_HEIGHT - 0.0015}" rpy="${PI} 0 ${PI/2}" />
+    </bioloid_F3_fixed>
+    
+    <dynamixel_AX12_fixed parent="${side}_arm_forearm_F3_0" name="${side}_arm_forearm_flex_servo">
+      <origin xyz="0 0 ${-(AX12_HEIGHT/2 + F2_DEPTH)}" rpy="${PI} 0 0" />
+    </dynamixel_AX12_fixed>
+    
+    <bioloid_F2_revolute parent="${side}_arm_forearm_flex_servo" name="${side}_arm_forearm_flex" color="${color}" vlimit="3.14" llimit="-1.75" ulimit="1.75">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </bioloid_F2_revolute>
+    
+    <bioloid_F2_fixed parent="${side}_arm_forearm_flex" name="${side}_arm_forearm_F2_0" color="${color}">
+      <origin xyz="0 0 ${AX12_HEIGHT/2 + F2_HEIGHT - 0.004}" rpy="0 ${PI} ${PI/2}" />
+    </bioloid_F2_fixed>
+    
+    <!-- wrist flex -->
+    <dynamixel_AX12_revolute parent="${side}_arm_forearm_F2_0" name="${side}_arm_wrist_flex" vlimit="3.14" llimit="-1.75" ulimit="1.75">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+    </dynamixel_AX12_revolute>
+    
+    <bioloid_F3_fixed parent="${side}_arm_wrist_flex" name="${side}_arm_wrist_F3_0" color="${color}">
+      <origin xyz="0 0 ${-AX12_HEIGHT - F3_HEIGHT/2}" rpy="${PI} 0 0" />
+    </bioloid_F3_fixed>
+    
+    <!-- gripper attach joint -->
+    <bioloid_F3_fixed parent="${side}_arm_wrist_F3_0" name="${side}_arm_gripper_attach" color="${color}">
+      <origin xyz="0 0 0.0005" rpy="${PI} 0 0" />
+    </bioloid_F3_fixed>
+
+
+<!-- GRIPPER SAVE VVVVVV  -->
+
+<!-- finger 1 -->
+    <joint name="${side}_gripper_finger_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="1.0" velocity="3.14" lower="-0.8" upper="0.5" />
+      <parent link="${side}_gripper_base_link"/>
+      <child link="${side}_gripper_active_finger_bracket_link" />
+    </joint>
+    
+    <link name="${side}_gripper_active_finger_bracket_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                 iyy="1.0" iyz="0.0"
+                 izz="1.0" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://rbx2_description/meshes/F2.stl" scale="${DYNAMIXEL_MESH_SCALE} ${DYNAMIXEL_MESH_SCALE} ${DYNAMIXEL_MESH_SCALE}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0.0 0.0 0.00775" rpy="0 0 0" />
+        <geometry>
+          <box size="0.025 0.0485 0.0375"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <finger parent="${side}_gripper_active_finger_bracket" name="${side}_gripper_active_finger" color="${color}">
+      <origin xyz="0 0 ${F2_DEPTH + 0.002}" rpy="0 0 0" />
+    </finger>
+
+    <!-- finger 2 -->
+    <bioloid_F3_fixed parent="${side}_gripper_base" name="${side}_gripper_static_finger_bracket" color="${color}">
+      <origin xyz="0 0 ${-AX12_HEIGHT-F10_HEIGHT}" rpy="0 ${PI} 0" />
+    </bioloid_F3_fixed>
+    
+    <finger parent="${side}_gripper_static_finger_bracket" name="${side}_gripper_static_finger" color="${color}">
+      <origin xyz="0 0 0" rpy="0 0 ${PI}" />
+    </finger>
+    
+    <!-- Fake gripper link and joint for grasp planning -->
+    <joint name="${side}_gripper_joint" type="fixed">
+      <origin xyz="0.05 0 -0.008" rpy="${-PI/2} 0 0"/>
+      <parent link="${side}_gripper_base_link"/>
+      <child link="${side}_gripper_link"/>
+    </joint>
+    <link name="${side}_gripper_link">
+      <visual>
+        <origin xyz="-0.05 0 0" rpy="0 0 0"/>
+        <geometry>
+           <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.05 0 0" rpy="0 0 0"/>
+        <geometry>
+           <box size="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <!--inertial>
+         <mass value="0.0012" />
+         <origin xyz="0 0 0"/>
+         <inertia ixx="2e-8" ixy="0.0" ixz="0.0"
+          iyy="2e-8" iyz="0.0"
+          izz="2e-8" />
+      </inertial -->
+    </link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

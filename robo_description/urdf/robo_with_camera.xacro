@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<robot name="robo_hand" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <property name="camera_offset_x" value="-0.13" />
+  <property name="camera_offset_y" value="0.0" />
+  <property name="camera_offset_z" value="0.41" />
+
+  <!-- Include all component files -->
+  <xacro:include filename="$(find robo_description)/urdf/materials.urdf.xacro" />
+  <xacro:include filename="$(find robo_description)/urdf/base.urdf.xacro" />
+   
+  <!-- Add the base and wheels -->
+  <base name="base" color="red"/>
+
+  <!-- Attach the camera -->
+  <torso name="camera" parent="base" color="Grey">
+    <origin xyz="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}" rpy="0 0 0" />
+  </torso>
+
+</robot>
+
+
+

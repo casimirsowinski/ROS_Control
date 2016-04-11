@@ -65,9 +65,9 @@ right_arm:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(arm_out_joint,arm_fwd_joint)
+  projection_evaluator: joints(right_arm_out_joint,right_arm_fwd_joint)
   longest_valid_segment_fraction: 0.05
-camera:
+left_arm:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -80,9 +80,9 @@ camera:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(pole_base_joint,camera_pole_joint)
+  projection_evaluator: joints(left_arm_out_joint,left_arm_fwd_joint)
   longest_valid_segment_fraction: 0.05
-right_hand:
+right_gripper:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -95,5 +95,16 @@ right_hand:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(wrist_joint,index_joint)
-  longest_valid_segment_fraction: 0.05
+left_gripper:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault

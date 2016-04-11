@@ -4,17 +4,16 @@ controller_list:
     type: FollowJointTrajectory
     default: true
     joints:
-      - right_arm_shoulder_pan_joint
-      - right_arm_shoulder_lift_joint
-      - right_arm_shoulder_roll_joint
-      - right_arm_elbow_flex_joint
-      - right_arm_forearm_flex_joint
-      - right_arm_wrist_flex_joint
-      
-  - name: right_gripper_controller
-    action_ns: gripper_action
-    type: GripperCommand
-    default: true
-    joints:
-      - right_gripper_finger_joint
-      
+     - right_arm_out_joint
+     - right_elbow_joint
+     - right_wrist_joint
+     - right_arm_fwd_joint
+     - right_arm_rotate_joint
+
+   - name: right_gripper_controller
+     action_ns: gripper_action
+     type: GripperCommand
+     default: true
+     joints:
+      -right_gripper_index_joint
+      -right_gripper_thumb_joint
