@@ -12,7 +12,17 @@
  *
  * And then run this node in a new terminal:
  * rosrun dummy_markers dummy_markers_node
- *
+ * 
+ * Now you can publish a center of mass point for the box marker by
+ * 
+ * rostopic pub -1 /dummy_marker geometry_msgs/Point -- x y z
+ * 
+ * Where x, y, and z are floating points values that correspond to the 
+ * location of the box relative to the origin point 0.0 0.0 0.0
+ * E.G. To display the box at the origin use 
+ * rostopic pub -1 /dummy_marker geometry_msgs/Point -- 0.0 0.0 0.0
+ * 
+ * 
  * You should now see the dummy node appear in Rviz.
 */
 
