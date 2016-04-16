@@ -10,3 +10,4 @@ printf "\n\n\n\n\t${LBLUE}________________${LBLUE}${GREEN}Loading ArbotiX simula
 
 # Command
 roslaunch robo_bringup robo_with_gripper.launch sim:=true
+wait ${!}
