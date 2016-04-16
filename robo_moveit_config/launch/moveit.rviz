@@ -4,14 +4,8 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /Grid1
         - /Grid1/Offset1
         - /MotionPlanning1
-        - /MotionPlanning1/Scene Geometry1
-        - /MotionPlanning1/Scene Robot1
-        - /MotionPlanning1/Planned Path1
         - /Marker1
       Splitter Ratio: 0.74256
     Tree Height: 376
@@ -223,8 +217,8 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: right_arm
-        Query Goal State: false
-        Query Start State: false
+        Query Goal State: true
+        Query Start State: true
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
@@ -552,7 +546,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.2254
+      Distance: 5.12874
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1

@@ -11,3 +11,4 @@ printf "\n\n\n\n\t${LBLUE}________________${LBLUE}${GREEN}Run RViz with ... conf
 # Command
 roslaunch robo_moveit_config demo.launch
 wait ${!}
+
