@@ -10,4 +10,4 @@ printf "\n\n\n\n\t${LBLUE}________________${LBLUE}${GREEN}Loading move_group.lau
 
 # Command
 roslaunch robo_moveit_config move_group.launch
-wait ${!}
+

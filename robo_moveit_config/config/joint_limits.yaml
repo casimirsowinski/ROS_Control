@@ -2,6 +2,16 @@
 # Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
+  head_pan_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: false
+    max_acceleration: 0
+  head_tilt_joint:
+    has_velocity_limits: true
+    max_velocity: 0.5
+    has_acceleration_limits: false
+    max_acceleration: 0
   left_arm_fwd_joint:
     has_velocity_limits: true
     max_velocity: 0.5
@@ -70,5 +80,10 @@ joint_limits:
   right_wrist_joint:
     has_velocity_limits: true
     max_velocity: 0.5
+    has_acceleration_limits: false
+    max_acceleration: 0
+  torso_head_tele_joint:
+    has_velocity_limits: true
+    max_velocity: 0.1
     has_acceleration_limits: false
     max_acceleration: 0

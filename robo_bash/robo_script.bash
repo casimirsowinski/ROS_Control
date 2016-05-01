@@ -16,10 +16,10 @@ delay="sleep 5"
 
 foo=""
 
-foo+=($delay $tab -e "$cmd1")     
+foo+=($tab -e "$cmd1")     
 foo+=($tab -e "$cmd2")  
 foo+=($tab -e "$cmd3") 
-#foo+=($tab -e "$cmd4") 
+foo+=($tab -e "$cmd4") 
 #foo+=($tab -e "$cmd5") 
 
 gnome-terminal "${foo[@]}"
