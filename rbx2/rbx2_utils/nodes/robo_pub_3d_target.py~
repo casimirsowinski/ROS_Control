@@ -32,7 +32,7 @@ import math
 
 class Pub3DTarget():
     def __init__(self):
-        rospy.init_node('pub_3d_target')
+        rospy.init_node('robo_pub_3d_target')
         
         # The rate at which we publish target messages
         self.rate = rospy.get_param('~rate', 20)
@@ -47,7 +47,7 @@ class Pub3DTarget():
         target_frame = rospy.get_param('~target_frame', 'base_link')
 
         # Convert the rates into ROS rates
-        self.r = rospy.Rate(self.rate)
+        self.r = rospy.Rate(self.rate)pub
         self.r_move_target = 1.0 / self.move_target_rate
         
         # Time interval between publishing cycles
@@ -57,7 +57,7 @@ class Pub3DTarget():
         dyn_server = Server(Pub3DTargetConfig, self.dynamic_reconfigure_callback)
         
         # Connect to the dynamic_reconfigure server
-        dyn_client = dynamic_reconfigure.client.Client("pub_3d_target", timeout=60)
+        dyn_client = dynamic_reconfigure.client.Client("robo_pub_3d_target", timeout=60)
 
         # The target pose publisher
         target_pub = rospy.Publisher('target_pose', PoseStamped, queue_size=5)
@@ -108,8 +108,8 @@ class Pub3DTarget():
             # Update the target position at the appropriate intervals
             if timer == 0.0 or timer > self.r_move_target:
                 timer = 0.0
-                target.pose.position.x = 0.0 + 0.1 * abs(math.cos(theta))
-                target.pose.position.y = -1 - 0.2 * math.sin(theta)
+                target.pose.position.x = 0.2 + 0.1 * abs(math.cos(theta))
+                target.pose.position.y = -0.2 * math.sin(theta)
                 target.pose.position.z = 0.7 + 0.3 * abs(math.cos(theta))
                 theta += self.speed / self.move_target_rate 
                             

@@ -55,7 +55,7 @@ class MoveItDemo:
         right_gripper.set_goal_joint_tolerance(0.001)
         
         # Start the arm target in "resting" pose stored in the SRDF file
-        right_arm.set_named_target('straight_forward')
+        right_arm.set_named_target('resting')
         
         # Plan a trajectory to the goal configuration
         traj = right_arm.plan()
@@ -65,11 +65,8 @@ class MoveItDemo:
         
         # Pause for a moment
         rospy.sleep(1)
-
-	'''
          
         # Set the gripper target to neutal position using a joint value target
-	####rospy.loginfo("The end effector link is: " + str(end_effector_link))
         right_gripper.set_joint_value_target(GRIPPER_NEUTRAL)
          
         # Plan and execute the gripper motion
@@ -124,8 +121,6 @@ class MoveItDemo:
         right_gripper.go()
         rospy.sleep(1)
         
-	'''
-
         # Cleanly shut down MoveIt
         moveit_commander.roscpp_shutdown()
         

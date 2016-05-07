@@ -52,6 +52,20 @@
         <joint name="head_tilt_joint" value="0" />
         <joint name="torso_head_tele_joint" value="0" />
     </group_state>
+    <group_state name="resting" group="right_arm">
+        <joint name="right_arm_fwd_joint" value="0" />
+        <joint name="right_arm_out_joint" value="0" />
+        <joint name="right_arm_rotate_joint" value="0" />
+        <joint name="right_elbow_joint" value="0" />
+        <joint name="right_wrist_joint" value="0" />
+    </group_state>
+    <group_state name="straight_forward" group="right_arm">
+        <joint name="right_arm_fwd_joint" value="1.5707" />
+        <joint name="right_arm_out_joint" value="0" />
+        <joint name="right_arm_rotate_joint" value="0" />
+        <joint name="right_elbow_joint" value="0" />
+        <joint name="right_wrist_joint" value="3.0356" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="right_end_effector" parent_link="right_gripper_link" group="right_gripper" />
     <end_effector name="left_end_effector" parent_link="left_gripper_link" group="left_gripper" />
