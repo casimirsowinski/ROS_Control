@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 
 <robot name="pan_tilt_head" xmlns:xacro="http://ros.org/wiki/xacro">
-
   <property name="pi" value="3.14159"/> 
   <property name="scale" value="0.001" />
-
-  <property name="camera_offset_x" value="0.0" />
-  <property name="camera_offset_y" value="0.0" />
-  <property name="camera_offset_z" value="0.0" />   
-  
+  <property name="camera_offset_x" value="0.0"/>
+  <property name="camera_offset_y" value="0.0"/>
+  <property name="camera_offset_z" value="0.0"/>   
+ 
   <macro name="camera" params="parent name color *origin">
-
     <!-- Telescoping neck joint/link -->
     <joint name="${parent}_${name}_tele_joint" type="prismatic">
       <xacro:insert_block name="origin" />
@@ -18,24 +15,23 @@
       <child link="${name}_tele_link"/>
       <axis xyz="0 0 1" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <limit lower="0" upper="0.19" velocity="0.1" effort="1.0" />
+      <limit lower="0" upper="0.19" velocity="0.1" effort="1.0"/>
     </joint>
     <link name="${name}_tele_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.01 0.01 0.25"/>
         </geometry>
         <material name="${color}" />
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.02 0.02 0.5"/>
         </geometry>
       </collision>
     </link>
-
     <!-- Pan joint/link -->
     <joint name="${name}_pan_joint" type="revolute">
       <axis xyz="0 0 1"/>
@@ -46,20 +42,19 @@
     </joint>
     <link name="${name}_pan_link">
       <visual>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.03 0.03 0.03"/>
         </geometry>
         <material name="blue"/>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.03 0.03 0.03"/>
         </geometry>
       </collision>
     </link>
-
     <!-- Tilt joint/link -->
     <joint name="${name}_tilt_joint" type="revolute">
       <axis xyz="1 0 0"/>
@@ -77,85 +72,80 @@
         <material name="green"/>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.03 0.03 0.01"/>
         </geometry>
       </collision>
     </link>
-
     <!-- Realsense joint/link -->
     <joint name="${name}_realsense_joint" type="fixed">
-      <xacro:insert_block name="origin" />
+      <xacro:insert_block name="origin"/>
       <parent link="${name}_tilt_link"/>
       <child link="realsense_link"/>      
     </joint>
     <link name="realsense_link">
       <visual>
-        <origin xyz="0 -0.025 -0.01" rpy="0 0 0" />
+        <origin xyz="0 -0.025 -0.01" rpy="0 0 0"/>
         <geometry>          
           <mesh filename="package://robo_description/meshes/camera/vis/RealSense.STL" scale="${scale} ${scale} ${scale}" />
         </geometry>
-        <material name="${color}" />
+        <material name="${color}"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <!--box size="0.1 0.02 0.02"/-->
           <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}" />
         </geometry>
       </collision>
     </link>
-
     <!-- realsense_frame -->
     <joint name="${name}_realsense_frame_joint" type="fixed">
-      <origin xyz="0 -0.027 0" rpy="${pi/2} ${pi} 0" />
-      <xacro:insert_block name="origin" />
+      <origin xyz="0 -0.027 0" rpy="${pi/2} ${pi} 0"/>
+      <!--xacro:insert_block name="origin"/-->
       <parent link="realsense_link"/>
       <child link="realsense_frame"/>      
     </joint>
     <link name="realsense_frame">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>          
           <box size="0.003 0.003 0.0005"/>
         </geometry>
         <material name="blue" />
       </visual>      
     </link>
-
     <!-- camera_depth_optical_frame -->
     <joint name="${name}_depth_joint" type="fixed">
-      <origin xyz="0 0 0.268" rpy="0 0 0" />
-      <parent link="realsense_frame" />
-      <child link="camera_depth_optical_frame" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="realsense_frame"/>
+      <child link="camera_depth_optical_frame"/>
     </joint>
     <link name="camera_depth_optical_frame">
       <inertial>
-        <mass value="0.000001" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001" />
-      </inertial>
-    </link>
-
-    <!-- camera_color_optical_frame -->
-    <joint name="${name}_rgb_joint" type="fixed">
-      <origin xyz="0.05 0 0.268" rpy="0 0 0" />
-      <parent link="realsense_frame" />
-      <child link="camera_color_optical_frame" />
-    </joint>
-    <link name="camera_color_optical_frame">
-      <inertial>
-        <mass value="0.000001" />
+        <mass value="0.000001"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
                  iyy="0.0001" iyz="0.0"
-                 izz="0.0001" />
+                 izz="0.0001"/>
       </inertial>
     </link>
-
+    <!-- camera_color_optical_frame -->
+    <joint name="${name}_rgb_joint" type="fixed">
+      <origin xyz="0.05 0 0" rpy="0 0 0"/>
+      <parent link="realsense_frame"/>
+      <child link="camera_color_optical_frame"/>
+    </joint>
+    <link name="camera_color_optical_frame">
+      <inertial>
+        <mass value="0.000001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
+    </link>
   </macro>
 
 </robot>

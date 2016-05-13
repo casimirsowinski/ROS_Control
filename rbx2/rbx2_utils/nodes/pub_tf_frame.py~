@@ -45,7 +45,7 @@ class PubFrame():
         
         target.header.frame_id = target_frame
         
-        target.pose.position.x = 1
+        target.pose.position.x = 0
         target.pose.position.y = 0
         target.pose.position.z = 0
         

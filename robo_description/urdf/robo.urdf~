@@ -218,7 +218,7 @@
   </link>
   <!-- realsense_frame -->
   <joint name="head_realsense_frame_joint" type="fixed">
-    <origin xyz="0 -0.027 0" rpy="0 0 0"/>
+    <origin xyz="0 -0.027 0" rpy="1.570795 3.14159 0"/>
     <!--origin xyz="0.0 0.0 0.0" rpy="0 0 3.14159"/-->
     <parent link="realsense_link"/>
     <child link="realsense_frame"/>

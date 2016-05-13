@@ -39,8 +39,8 @@
   </torso>
 
   <!-- Attach the camera -->
-  <camera name="head_base" parent="torso" color="yellow">
-    <origin xyz="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}" rpy="0 0 ${pi}" />
+  <camera name="head" parent="torso" color="yellow">
+    <origin xyz="${camera_offset_x} ${camera_offset_y} ${camera_offset_z}" rpy="0 0 0" />
   </camera>
 
   <!-- Attach the right arm -->

@@ -9,8 +9,9 @@
    <arg name="port" default="/dev/ttyACM0" />
    
    <!-- Load the URDF/Xacro model of our robot -->
-   <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo.urdf'" />
-   
+   <!--param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo.urdf'"/-->
+   <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo_two_arms_realsense.xacro'"/>
+
    <!-- Bring up the arbotix driver with a configuration file appropriate to the robot -->
    <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
       <rosparam file="$(find robo_arduino)/config/robo.yaml" command="load" />
