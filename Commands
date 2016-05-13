@@ -1,0 +1,19 @@
+// Start ROS Core
+roscore
+// Load up urdf/srdf/tf/etc
+roslaunch robo_bringup robo.launch 
+// Start RViz 
+rosrun rviz rviz -d `rospack find robo_description`/urdf.rviz
+// Start the Realsense node
+roslaunch robo_realsense realsense_r200_launch.launch 
+// Start Rosserial, replace '/dev/ttyACM0' with where Arduino is mounted
+rosrun rosserial_python serial_node.py /dev/ttyACM0
+// Start teleop_key to send commands to Arduino
+rosrun turtlesim turtle_teleop_key 
+// Run the Python script to publish a moving marker
+roslaunch rbx2_utils pub_3d_target.launch 
+// Run the Python script to track the marker
+roslaunch rbx2_dynamixels head_tracker.launch 
+
+
+
