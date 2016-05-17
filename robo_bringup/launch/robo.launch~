@@ -4,13 +4,17 @@
   
    <!-- Launch the arbotix driver in fake mode by default -->
    <arg name="sim" default="true" />
+
+   <!-- By default, we are not in debug mode -->
+   <arg name="debug" default="false" />
    
    <!-- If using a real controller, look on /dev/ttyUSB0 by default -->
    <arg name="port" default="/dev/ttyACM0" />
    
    <!-- Load the URDF/Xacro model of our robot -->
-   <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo.urdf'" />
-   
+   <!--param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo.urdf'"/-->
+   <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo_two_arms_realsense.xacro'"/>
+
    <!-- Bring up the arbotix driver with a configuration file appropriate to the robot -->
    <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
       <rosparam file="$(find robo_arduino)/config/robo.yaml" command="load" />
@@ -31,6 +35,14 @@
          joint: right_gripper_index_joint
       </rosparam>
    </node>
+
+  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+  <include file="$(find robo_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="true"/>
+    <arg name="info" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
 
    <!-- Publish the robot state -->
    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">

@@ -1,36 +1,34 @@
 <?xml version="1.0"?>
-
 <robot name="torso" xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <!-- Define a number of dimensions using properties -->
-  <property name="torso_size_x" value="0.0" />
-  <property name="torso_size_y" value="0.0" />
-  <property name="torso_size_z" value="0.0" />
-  
-  <property name="scale" value="0.001" />
-  
-  <!-- Define the torso -->
+  <!-- Properties -->
+  <property name="torso_size_x" value="0.0"/>
+  <property name="torso_size_y" value="0.0"/>
+  <property name="torso_size_z" value="0.0"/>  
+  <property name="scale" value="0.001"/>  
+  <!-- Macro -->
   <macro name="torso" params="parent name color *origin">
+    <!-- J -->
     <joint name="${parent}_${name}_joint" type="fixed">
-      <xacro:insert_block name="origin" />
+      <xacro:insert_block name="origin"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="${parent}_link"/>
       <child link="${name}_link"/>
     </joint>
+    <!-- L -->
     <link name="${name}_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 3.1415"/>
         <geometry>
-           <mesh filename="package://robo_description/meshes/torso/vis/vis_torso_03.STL" scale="${scale} ${scale} ${scale}" />
+           <mesh filename="package://robo_description/meshes/torso/vis/vis_torso_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="${color}" />
+        <material name="${color}"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://robo_description/meshes/torso/col/col_torso_03.STL" scale="${scale} ${scale} ${scale}" />
+          <mesh filename="package://robo_description/meshes/torso/col/col_torso_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
-    </link>
+    </link>1`+
   </macro>
-
 </robot>

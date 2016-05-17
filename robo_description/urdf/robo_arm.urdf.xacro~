@@ -1,48 +1,56 @@
 <?xml version="1.0"?>
-
 <robot name="arm" xmlns:xacro="http://ros.org/wiki/xacro">
-
+  <!-- Properties -->
   <property name="shouldera_offset_x" value="0.0" />
   <property name="shouldera_offset_y" value="0.5" />
   <property name="shouldera_offset_z" value="0.0" />
-
-  <xacro:include filename="$(find rbx2_description)/urdf/pi_robot/dynamixel_arm_hardware.xacro" />
-
+  <!-- Macro -->
   <macro name="arm" params="side reflect parent color *origin"> 
-
-    <!-- arm base joint -->
-    <link name="${side}_arm_base_link" />     
+    <!-- Arm base --> 
+    <!-- L -->     
+    <link name="${side}_arm_base_link"/> 
+    <!-- J -->     
     <joint name="${side}_arm_base_joint" type="fixed">
-      <xacro:insert_block name="origin" />
-      <parent link="${parent}_link" />
-      <child link="${side}_arm_base_link" />
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}_link"/>
+      <child link="${side}_arm_base_link"/>
+    </joint>  
+    <!-- Arm out -->
+    <!-- J -->     
+    <joint name="${side}_arm_out_joint" type="revolute">
+      <axis xyz="0 ${-reflect} 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <xacro:insert_block name="origin"/>
+      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+      <parent link="${side}_arm_base_link"/>
+      <child link="${side}_arm_shouldera_link"/>
     </joint>
-
-    <!-- Shoulder_A -->
+    <!-- L --> 
     <link name="${side}_arm_shouldera_link">
       <visual>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_shouldera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
         <material name="orange"/>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/col/col_${side}_shouldera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_arm_out_joint" type="revolute">
-      <axis xyz="0 ${-reflect} 0"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
-      <parent link="${side}_arm_base_link"/>
-      <child link="${side}_arm_shouldera_link"/>
+    <!-- Arm forward -->
+    <!-- J -->
+    <joint name="${side}_arm_fwd_joint" type="revolute">
+      <axis xyz="-1 0 0"/>
+      <origin xyz="${0.012 * reflect} 0.005 -0.04" rpy="0 0 0"/>
+      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <parent link="${side}_arm_shouldera_link"/>
+      <child link="${side}_arm_shoulderb_link"/>
     </joint>
-
-    <!-- Shoulder_B -->
+    <!-- L -->
     <link name="${side}_arm_shoulderb_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -58,18 +66,19 @@
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_arm_fwd_joint" type="revolute">
-      <axis xyz="-1 0 0"/>
-      <origin xyz="${-0.012 * reflect} 0.005 -0.04" rpy="0 0 0" />
-      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
-      <parent link="${side}_arm_shouldera_link"/>
-      <child link="${side}_arm_shoulderb_link"/>
+    <!-- Arm rotate -->
+    <!-- J -->
+    <joint name="${side}_arm_rotate_joint" type="revolute">
+      <axis xyz="0 0 ${reflect}"/>
+      <origin xyz="${0.06 * reflect} 0 -0.059" rpy="0 0 0"/>
+      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <parent link="${side}_arm_shoulderb_link"/>
+      <child link="${side}_arm_biceps_link"/>
     </joint>
-
-    <!-- Biceps -->
+    <!-- L -->
     <link name="${side}_arm_biceps_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_biceps_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
@@ -82,15 +91,16 @@
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_arm_rotate_joint" type="revolute">
-      <axis xyz="0 0 ${reflect}"/>
-      <origin xyz="${0.06 * reflect} 0 -0.059" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
-      <parent link="${side}_arm_shoulderb_link"/>
-      <child link="${side}_arm_biceps_link"/>
+    <!-- Elbow -->
+    <!-- J -->
+    <joint name="${side}_elbow_joint" type="revolute">
+      <axis xyz="-1 0 0"/>      
+      <origin xyz="0 0.029 -0.225" rpy="0 0 0"/>
+      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+      <parent link="${side}_arm_biceps_link"/>
+      <child link="${side}_arm_forearm_link"/>
     </joint>
-
-    <!-- Forearm -->
+    <!-- L -->
     <link name="${side}_arm_forearm_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -100,21 +110,23 @@
         <material name="blue"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/col/col_${side}_forearm_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_elbow_joint" type="revolute">
-      <axis xyz="-1 0 0"/>      
-      <origin xyz="0 0.029 -0.225" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
-      <parent link="${side}_arm_biceps_link"/>
-      <child link="${side}_arm_forearm_link"/>
-    </joint>
-
     <!-- Wrist/Hand -->
+    <!-- J -->
+    <joint name="${side}_wrist_joint" type="revolute">
+      <axis xyz="0 0 ${-reflect}"/>
+      <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
+      <origin xyz="0.008 ${-0.01*reflect} -0.2888" rpy="0 0 0"/>
+      <limit effort="1000.0" lower="0.0" upper="${pi}" velocity="0.5"/>
+      <parent link="${side}_arm_forearm_link"/>
+      <child link="${side}_arm_wrist_link"/>
+    </joint>
+    <!-- L -->
     <link name="${side}_arm_wrist_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -130,14 +142,5 @@
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_wrist_joint" type="revolute">
-      <axis xyz="0 0 ${-reflect}"/>
-      <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
-      <origin xyz="0.008 ${-0.01*reflect} -0.2888" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="${pi}" velocity="0.5"/>
-      <parent link="${side}_arm_forearm_link"/>
-      <child link="${side}_arm_wrist_link"/>
-    </joint>
   </macro>
-
 </robot>

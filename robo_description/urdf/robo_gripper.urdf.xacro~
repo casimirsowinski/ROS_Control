@@ -1,83 +1,91 @@
 <?xml version="1.0"?>
-
 <robot name="gripper" xmlns:xacro="http://ros.org/wiki/xacro">
-
+  <!-- Properties -->
   <property name="pi" value="3.14159"/>
   <property name="scale" value="0.001"/>
-
+  <!-- Macro -->
   <macro name="gripper" params="side reflect parent color *origin"> 
-
     <!-- gripper base joint -->
-    <link name="${side}_gripper_base_link" />     
+    <!-- J -->
     <joint name="${side}_gripper_base_joint" type="fixed">
-      <xacro:insert_block name="origin" />
-      <parent link="${parent}_link" />
-      <child link="${side}_gripper_base_link" />
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}_link"/>
+      <child link="${side}_gripper_base_link"/>
     </joint>
-   
+    <!-- L -->
+    <link name="${side}_gripper_base_link"/>  
     <!-- Index -->
+    <!-- J -->
+    <joint name="${side}_gripper_index_joint" type="revolute">
+      <origin xyz="${reflect * 0.034} 0 -0.119" rpy="0 0 0"/>
+      <axis xyz="-1 0 0"/>
+      <limit effort="1.0" velocity="3.14" lower="0.0" upper="${pi/2}"/>
+      <parent link="${side}_gripper_base_link"/>
+      <child link="${side}_gripper_index_link"/>
+    </joint>   
+    <!-- L -->
     <link name="${side}_gripper_index_link">
       <inertial>
-        <mass value="0.00001" />
-        <origin xyz="0 0 0" />
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
         <inertia ixx="1.0" ixy="0.0" ixz="0.0"
                  iyy="1.0" iyz="0.0"
-                 izz="1.0" />
+                 izz="1.0"/>
       </inertial>      
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_index_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
         <material name="violet"/>
       </visual>      
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/col/col_${side}_index_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
-    </link>
-    <joint name="${side}_gripper_index_joint" type="revolute">
-      <origin xyz="${reflect * 0.034} 0 -0.119" rpy="0 0 0"/>
-      <axis xyz="-1 0 0"/>
-      <limit effort="1.0" velocity="3.14" lower="0.0" upper="${pi/2}" />
-      <parent link="${side}_gripper_base_link"/>
-      <child link="${side}_gripper_index_link" />
-    </joint>   
-
+    </link>  
     <!-- Thumb -->
+    <!-- J -->
+    <joint name="${side}_gripper_thumb_joint" type="revolute">
+      <origin xyz="${reflect * 0.06} 0 -0.0685" rpy="0 0 0"/>
+      <axis xyz="0 0 ${-reflect}"/>
+      <limit effort="1.0" velocity="3.14" lower="0.0" upper="${pi/2}"/>
+      <parent link="${side}_gripper_base_link"/>
+      <child link="${side}_gripper_thumb_link"/>
+    </joint>
+    <!-- L -->
     <link name="${side}_gripper_thumb_link">
       <inertial>
-        <mass value="0.00001" />
-        <origin xyz="0 0 0" />
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
         <inertia ixx="1.0" ixy="0.0" ixz="0.0"
                  iyy="1.0" iyz="0.0"
-                 izz="1.0" />
+                 izz="1.0"/>
       </inertial>      
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_thumb_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
         <material name="violet"/>
       </visual>      
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/col/col_${side}_thumb_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
     </link>
-    <joint name="${side}_gripper_thumb_joint" type="revolute">
-      <origin xyz="${reflect * 0.06} 0 -0.0685" rpy="0 0 0"/>
-      <axis xyz="0 0 ${-reflect}"/>
-      <limit effort="1.0" velocity="3.14" lower="0.0" upper="${pi/2}" />
-      <parent link="${side}_gripper_base_link"/>
-      <child link="${side}_gripper_thumb_link" />
-    </joint>
-
     <!-- Fake gripper link and joint for grasp planning -->    
+    <!-- J -->
+    <joint name="${side}_gripper_joint" type="fixed">
+      <origin xyz="0 -0.03 -0.09" rpy="${-pi/2} 0 0"/>
+      <parent link="${side}_gripper_base_link"/>
+      <child link="${side}_gripper_link"/>
+    </joint>
+    <!-- L -->
     <link name="${side}_gripper_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -92,11 +100,5 @@
         </geometry>
       </collision>      
     </link>
-    <joint name="${side}_gripper_joint" type="fixed">
-      <origin xyz="0 -0.05 -0.09" rpy="${-pi/2} 0 0"/>
-      <parent link="${side}_gripper_base_link"/>
-      <child link="${side}_gripper_link"/>
-    </joint>
-
    </macro>
 </robot>

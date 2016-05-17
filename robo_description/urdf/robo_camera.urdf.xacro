@@ -1,29 +1,30 @@
 <?xml version="1.0"?>
-
 <robot name="pan_tilt_head" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Properties -->
   <property name="pi" value="3.14159"/> 
-  <property name="scale" value="0.001" />
+  <property name="scale" value="0.001"/>
   <property name="camera_offset_x" value="0.0"/>
   <property name="camera_offset_y" value="0.0"/>
   <property name="camera_offset_z" value="0.0"/>   
- 
+  <!-- Macro -->
   <macro name="camera" params="parent name color *origin">
-    <!-- Telescoping neck joint/link -->
+    <!-- Telescoping neck -->
+    <!-- J -->
     <joint name="${parent}_${name}_tele_joint" type="prismatic">
-      <xacro:insert_block name="origin" />
+      <xacro:insert_block name="origin"/>
       <parent link="${parent}_link"/>
       <child link="${name}_tele_link"/>
-      <axis xyz="0 0 1" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>     
       <limit lower="0" upper="0.19" velocity="0.1" effort="1.0"/>
     </joint>
+    <!-- L -->
     <link name="${name}_tele_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.01 0.01 0.25"/>
         </geometry>
-        <material name="${color}" />
+        <material name="yellow"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -32,30 +33,56 @@
         </geometry>
       </collision>
     </link>
-    <!-- Pan joint/link -->
-    <joint name="${name}_pan_joint" type="revolute">
-      <axis xyz="0 0 1"/>
+    <!-- Neck to pan fixed -->
+    <!-- J -->     
+    <joint name="${name}_neck_joint" type="fixed">
       <origin xyz="0 0 0.135" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="${pi/2}" upper="${-pi/2}" velocity="0.5"/>
       <parent link="${name}_tele_link"/>
+      <child link="${name}_neck_link"/>
+    </joint> 
+    <!-- L -->     
+    <link name="${name}_neck_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.03 0.03"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.01 0.03 0.03"/>
+        </geometry>
+      </collision>
+    </link> 
+    <!-- Pan -->
+    <!-- J  -->
+    <joint name="${name}_pan_joint" type="revolute">
+      <axis xyz="0 0 -1"/>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <parent link="${name}_neck_link"/>
       <child link="${name}_pan_link"/>
     </joint>
+    <!-- L -->
     <link name="${name}_pan_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.03 0.03 0.03"/>
+          <box size="0.03 0.03 0.01"/>
         </geometry>
         <material name="blue"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.03 0.03 0.03"/>
+          <box size="0.03 0.03 0.01"/>
         </geometry>
       </collision>
     </link>
-    <!-- Tilt joint/link -->
+    <!-- Tilt -->
+    <!-- J -->
     <joint name="${name}_tilt_joint" type="revolute">
       <axis xyz="1 0 0"/>
       <origin xyz="0 0.01 0" rpy="0 0 0"/>
@@ -63,65 +90,110 @@
       <parent link="${name}_pan_link"/>
       <child link="${name}_tilt_link"/>
     </joint>
+    <!-- L -->
     <link name="${name}_tilt_link">
       <visual>
-        <origin xyz="0 0.012 0" rpy="0 0 0"/>
+        <origin xyz="0 0.01 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.03 0.03 0.01"/>
+          <box size="0.035 0.025 0.01"/>
         </geometry>
-        <material name="green"/>
+        <material name="indigo"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0.01 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.03 0.03 0.01"/>
+          <box size="0.035 0.025 0.01"/>
         </geometry>
       </collision>
     </link>
-    <!-- Realsense joint/link -->
+    <!-- Realsense body -->
+    <!-- J -->
     <joint name="${name}_realsense_joint" type="fixed">
       <xacro:insert_block name="origin"/>
       <parent link="${name}_tilt_link"/>
       <child link="realsense_link"/>      
     </joint>
+    <!-- L -->
     <link name="realsense_link">
       <visual>
-        <origin xyz="0 -0.025 -0.01" rpy="0 0 0"/>
+        <origin xyz="0.01 0.025 -0.01" rpy="0 0 ${pi}"/>
         <geometry>          
-          <mesh filename="package://robo_description/meshes/camera/vis/RealSense.STL" scale="${scale} ${scale} ${scale}" />
+          <mesh filename="package://robo_description/meshes/camera/vis/RealSense.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="${color}"/>
+        <material name="realsensecolor"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0.01 0.025 -0.01" rpy="0 0 ${pi}"/>
         <geometry>
-          <!--box size="0.1 0.02 0.02"/-->
-          <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}" />
+          <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
       </collision>
     </link>
+    <!-- Head tracker point A -->
+    <!-- J -->
+    <joint name="${name}_tracker_A_joint" type="fixed">
+      <!--axis xyz="1 1 1"/-->
+      <!--limit effort="1000.0" lower="${pi}" upper="${pi}" velocity="0.5"/-->
+      <!--origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/-->
+      <origin xyz="0 -0.01 0" rpy="${1.57} ${1.57} ${0}"/>
+      <parent link="realsense_link"/>
+      <child link="head_tracker_A_link"/>      
+    </joint>
+    <!-- L -->
+    <link name="head_tracker_A_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>          
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="indigo"/>
+      </visual>      
+    </link>
+    <!-- Head tracker point B -->
+    <!-- J2 -->
+    <joint name="${name}_tracker_B_joint" type="fixed">
+      <!--axis xyz="1 1 1"/-->
+      <!--limit effort="1000.0" lower="${pi}" upper="${pi}" velocity="0.5"/-->
+      <!--origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/-->
+      <origin xyz="0 0 0" rpy="${pi/5} ${1.57} ${0}"/>
+      <parent link="head_tracker_A_link"/>
+      <child link="head_tracker_B_link"/>      
+    </joint>
+    <!-- L2 -->
+    <link name="head_tracker_B_link">
+      <!--visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>          
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+      </visual-->      
+    </link>
     <!-- realsense_frame -->
+    <!-- J -->
     <joint name="${name}_realsense_frame_joint" type="fixed">
-      <origin xyz="0 -0.027 0" rpy="${pi/2} ${pi} 0"/>
-      <!--xacro:insert_block name="origin"/-->
+      <origin xyz="0.0588 0.027 0.0037" rpy="${pi/2} ${pi} ${pi}"/>
       <parent link="realsense_link"/>
       <child link="realsense_frame"/>      
     </joint>
+    <!-- L -->
     <link name="realsense_frame">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>          
           <box size="0.003 0.003 0.0005"/>
         </geometry>
-        <material name="blue" />
+        <material name="violet"/>
       </visual>      
     </link>
-    <!-- camera_depth_optical_frame -->
+    <!-- camera_depth_frame -->
+    <!-- J -->
     <joint name="${name}_depth_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="realsense_frame"/>
       <child link="camera_depth_optical_frame"/>
     </joint>
+    <!-- L -->
     <link name="camera_depth_optical_frame">
       <inertial>
         <mass value="0.000001"/>
@@ -132,12 +204,21 @@
       </inertial>
     </link>
     <!-- camera_color_optical_frame -->
+    <!-- J -->
     <joint name="${name}_rgb_joint" type="fixed">
-      <origin xyz="0.05 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0.0003 0" rpy="0 0 0"/>
       <parent link="realsense_frame"/>
       <child link="camera_color_optical_frame"/>
     </joint>
+    <!-- L -->
     <link name="camera_color_optical_frame">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>          
+          <box size="0.003 0.003 0.001"/>
+        </geometry>
+        <material name="violet"/>
+      </visual>
       <inertial>
         <mass value="0.000001"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -147,5 +228,4 @@
       </inertial>
     </link>
   </macro>
-
 </robot>

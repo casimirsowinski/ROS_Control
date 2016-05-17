@@ -1,15 +1,6 @@
 /*
- * rosserial Servo Control Example
- *
- * This sketch demonstrates the control of hobby R/C servos
- * using ROS and the arduiono
- * 
- * For the full tutorial write up, visit
- * www.ros.org/wiki/rosserial_arduino_demos
- *
- * For more information on the Arduino Servo Library
- * Checkout :
- * http://www.arduino.cc/en/Reference/Servo
+ * Arduino/ROS Interface Program
+ * Casimir Sowinski, 2016
  */
 
 // Check Arduino version
@@ -20,7 +11,6 @@
 #endif
 
 // Includes
-#include <Servo.h> 
 #include <ros.h>
 #include <string.h>
 #include <std_msgs/UInt16.h>
@@ -28,6 +18,16 @@
 #include <sensor_msgs/JointState.h>
 #include <std_msgs/Float64.h>
 #include <geometry_msgs/Twist.h>
+
+#include <Servo.h> 
+
+#include <PololuMaestro.h>
+/*#ifdef SERIAL_PORT_HARDWARE_OPEN
+  #define maestroSerial SERIAL_PORT_HARDWARE_OPEN
+#else
+  #include <SoftwareSerial.h>
+  SoftwareSerial maestroSerial(10, 11);
+#endif*/
 
 // Prototypes 
 void servo_cb(const sensor_msgs::JointState&);
@@ -46,9 +46,16 @@ std_msgs::Float64 tilt_ang_old;
 std_msgs::Float64 pan_ang_rad;
 std_msgs::Float64 tilt_ang_rad;
 
+// Init Pololu vars
+#define maestroSerial Serial1
+//MicroMaestro maestro(Serial1);
+MiniMaestro maestro(Serial1);
+
 // Init Arduino vars
 Servo servo_pan;
 Servo servo_tilt;
+int servo_pin_pan  = 0;
+int servo_pin_tilt = 1;
 char hello[13] = "hello world!";
 int n = 0;
 int up_dn = 1;
@@ -72,13 +79,21 @@ void setup(){
   tilt_ang.data = 90.0;
   pan_ang_old.data = 90.0;
   tilt_ang_old.data = 90.0;
-  
-  
+    
   // Setup servos
   servo_pan.attach(10); // attach pan servo to pin 9
   servo_tilt.attach(9); // attach tilt servo to pin 10
   pinMode(13, OUTPUT);
-
+  
+  maestroSerial.begin(9600);
+  maestro.setSpeed(servo_pin_pan, 10);
+  maestro.setAcceleration(servo_pin_pan, 127);
+  maestro.setSpeed(servo_pin_tilt, 10);
+  maestro.setAcceleration(servo_pin_tilt, 127);
+  
+  maestro.setTarget(servo_pin_pan, 6000);
+  maestro.setTarget(servo_pin_tilt, 4000);
+  
   // Setup ROS node
   nh.initNode();
   
@@ -111,11 +126,13 @@ void teleop_cb(const geometry_msgs::Twist& cmd){
   
   if (tilt_ang.data > 165) 
   { tilt_ang.data = 165; }
-  if (tilt_ang.data < 0) 
-  { tilt_ang.data = 0; }
+  if (tilt_ang.data < -90) 
+  { tilt_ang.data = -90; }
   
   servo_pan.write(pan_ang.data); //set servo angle, should be from 0-180  
   servo_tilt.write(tilt_ang.data); //set servo angle, should be from 0-180    
+  maestro.setTarget(servo_pin_pan, pan_ang.data * 4000 / 90 + 6000);
+  maestro.setTarget(servo_pin_tilt, tilt_ang.data * 4000 / 90 + 4000);
 }
 
 void servo_cb(const sensor_msgs::JointState& state){  
@@ -169,12 +186,12 @@ void loop(){
   
   // Publish
   if (pan_ang_old.data != pan_ang.data) {
-    pan_ang_rad.data = pan_ang.data * pi / 180 - pi / 2;
+    pan_ang_rad.data = pi / 2 - pan_ang.data * pi / 180;
     pan.publish(&pan_ang_rad);
     pan_ang_old.data = pan_ang.data;
   }
   if (tilt_ang_old.data != tilt_ang.data) {
-    tilt_ang_rad.data = tilt_ang.data * pi / 180 - pi / 4;
+    tilt_ang_rad.data = tilt_ang.data * pi / 180;
     tilt.publish(&tilt_ang_rad);
     tilt_ang_old.data = tilt_ang.data;
   }      

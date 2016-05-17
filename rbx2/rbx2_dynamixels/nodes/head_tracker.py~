@@ -81,9 +81,8 @@ class HeadTracker():
         
         # What is the name of the camera link?
 	##self.camera_link = rospy.get_param('~camera_link', 'camera_link')
- 	#self.camera_link = rospy.get_param('~realsense_link', 'realsense_link')
-	self.camera_link = rospy.get_param('~camera_depth_optical_frame', 'camera_depth_optical_frame')
-	
+ 	self.camera_link = rospy.get_param('~head_tracker_A_link', 'head_tracker_A_link')	
+	#self.camera_link = rospy.get_param('~realsense_link', 'realsense_link')
 
         # Joint speeds are given in radians per second
         self.default_joint_speed = rospy.get_param('~default_joint_speed', 0.3)
@@ -117,11 +116,15 @@ class HeadTracker():
             self.gain_tilt = 1.5
         
         # Set limits on how far we can pan or tilt
-        self.max_pan = rospy.get_param('~max_pan', radians(125))
-        self.min_pan = rospy.get_param('~min_pan', radians(-125))
-        self.max_tilt = rospy.get_param('~max_tilt', radians(90))
-        self.min_tilt = rospy.get_param('~min_tilt', radians(-90))
-        
+        ##self.max_pan = rospy.get_param('~max_pan', radians(125))
+        ##self.min_pan = rospy.get_param('~min_pan', radians(-125))
+        ##self.max_tilt = rospy.get_param('~max_tilt', radians(90))
+        ##self.min_tilt = rospy.get_param('~min_tilt', radians(-90))
+        self.max_pan = rospy.get_param('~max_pan', radians(180))
+        self.min_pan = rospy.get_param('~min_pan', radians(-180))
+        self.max_tilt = rospy.get_param('~max_tilt', radians(180))
+        self.min_tilt = rospy.get_param('~min_tilt', radians(-180))        
+
         # Initialize the servo services and publishers
         self.init_servos()
         
@@ -155,7 +158,7 @@ class HeadTracker():
             rospy.sleep(1)
             
         # Center the pan and tilt servos
-        self.center_head_servos()
+        #self.center_head_servos()
         
         # Initialize the pan and tilt speeds     
         if TRACKER_TYPE == 'position':

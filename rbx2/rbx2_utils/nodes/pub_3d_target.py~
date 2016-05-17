@@ -108,12 +108,12 @@ class Pub3DTarget():
             # Update the target position at the appropriate intervals
             if timer == 0.0 or timer > self.r_move_target:
                 timer = 0.0
-                #target.pose.position.x = 0.0 + 0.1 * abs(math.cos(theta))
-                target.pose.position.y = -1 - 0.2 * math.sin(theta)
-                #target.pose.position.z = 0.7 + 0.3 * abs(math.cos(theta))
 		target.pose.position.x = 0.0		
-		#target.pose.position.y = -1.0
+		target.pose.position.y = 1.0
 		target.pose.position.z = 1.0
+                target.pose.position.x = 0.0 + 0.1 * abs(math.cos(theta))
+                #target.pose.position.y = -1 - 0.2 * math.sin(theta)
+                target.pose.position.z = 0.7 + 0.3 * abs(math.cos(theta))
 		theta += self.speed / self.move_target_rate 
                             
             now = rospy.Time.now()
