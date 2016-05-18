@@ -26,12 +26,12 @@
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision>
+      <!--collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.02 0.02 0.5"/>
         </geometry>
-      </collision>
+      </collision!-->
     </link>
     <!-- Neck to pan fixed -->
     <!-- J -->     
@@ -40,7 +40,8 @@
       <parent link="${name}_tele_link"/>
       <child link="${name}_neck_link"/>
     </joint> 
-    <!-- L -->     
+    <!-- L -->
+    <!-- This contains the head collision box -->     
     <link name="${name}_neck_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -48,13 +49,7 @@
           <box size="0.01 0.03 0.03"/>
         </geometry>
         <material name="green"/>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.01 0.03 0.03"/>
-        </geometry>
-      </collision>
+      </visual>      
     </link> 
     <!-- Pan -->
     <!-- J  -->
@@ -74,12 +69,12 @@
         </geometry>
         <material name="blue"/>
       </visual>
-      <collision>
+      <!--collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.03 0.03 0.01"/>
         </geometry>
-      </collision>
+      </collision!-->
     </link>
     <!-- Tilt -->
     <!-- J -->
@@ -99,12 +94,12 @@
         </geometry>
         <material name="indigo"/>
       </visual>
-      <collision>
+      <!--collision>
         <origin xyz="0 0.01 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.035 0.025 0.01"/>
         </geometry>
-      </collision>
+      </collision!-->
     </link>
     <!-- Realsense body -->
     <!-- J -->
@@ -122,12 +117,12 @@
         </geometry>
         <material name="realsensecolor"/>
       </visual>
-      <collision>
+      <!--collision>
         <origin xyz="0.01 0.025 -0.01" rpy="0 0 ${pi}"/>
         <geometry>
           <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-      </collision>
+      </collision!-->
     </link>
     <!-- Head tracker point A -->
     <!-- J -->
@@ -135,7 +130,7 @@
       <!--axis xyz="1 1 1"/-->
       <!--limit effort="1000.0" lower="${pi}" upper="${pi}" velocity="0.5"/-->
       <!--origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/-->
-      <origin xyz="0 -0.01 0" rpy="${1.6} ${1.6} ${1.6}"/>
+      <origin xyz="0 -0.01 0" rpy="${1.57} ${1.57} ${0}"/>
       <parent link="realsense_link"/>
       <child link="head_tracker_A_link"/>      
     </joint>

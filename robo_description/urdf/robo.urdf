@@ -4,11 +4,8 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="robo_hand" xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- Define a number of dimensions using properties -->
-  <!--property name="arm_offset_x" value="-0.143" /-->
-  <!--property name="arm_offset_y" value="-0.032" /-->
-  <!--property name="arm_offset_z" value="1.302" /-->
-  <!-- Include all component files -->
+  <!-- Properties -->
+  <!-- Include files -->
   <!-- Materials -->
   <material name="red">
     <color rgba="1.0 0.0 0.0 0.8"/>
@@ -67,27 +64,19 @@
   <material name="TransparentGreen">
     <color rgba="0.0 0.8 0.0 0.5"/>
   </material>
-  <!-- Variables  -->
-  <!-- The base xacro macro -->
-  <!-- Define a number of dimensions using properties -->
-  <!-- Define the torso -->
-  <!-- Now we can start using the macros included above to define the actual robot -->
-  <!-- Add the base and wheels -->
-  <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://robo_description/meshes/base/vis/vis_basewheels_03.STL" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="orange"/>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://robo_description/meshes/base/col/col_basewheels_03.STL" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
-  </link>
+  <!-- Properties  -->
+  <!-- Macro -->
+  <!-- Properties -->
+  <!-- Macro -->
+  <!-- Properties -->
+  <!-- Macro -->
+  <!-- Properties -->
+  <!-- Macro -->
+  <!-- Properties -->
+  <!-- Macro -->
+  <!-- Components -->
+  <!-- Base -->
+  <!-- L -->
   <link name="base_footprint">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -97,20 +86,41 @@
       <material name="TransparentGreen"/>
     </visual>
   </link>
+  <!-- J -->
   <joint name="base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <!--xacro:insert_block name="origin"/-->
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     <parent link="base_footprint"/>
     <child link="base_link"/>
   </joint>
-  <!-- Attach the torso -->
+  <!-- L -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 3.14159" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/base/vis/vis_basewheels_03.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.14159" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://robo_description/meshes/base/col/col_basewheels_03.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Torso -->
+  <!-- J -->
   <joint name="base_torso_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0 -0.026 1.255"/>
+    <origin rpy="0 0 0" xyz="0.0 -0.02 1.255"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="base_link"/>
     <child link="torso_link"/>
   </joint>
+  <!-- L -->
   <link name="torso_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 3.14159" xyz="0 0 0"/>
       <geometry>
         <mesh filename="package://robo_description/meshes/torso/vis/vis_torso_03.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -123,16 +133,38 @@
       </geometry>
     </collision>
   </link>
-  <!-- Attach the camera -->
-  <!-- Telescoping neck joint/link -->
+  <!-- J -->
+  <joint name="head_col_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.24"/>
+    <parent link="torso_link"/>
+    <child link="head_col_link"/>
+  </joint>
+  <!-- L -->
+  <link name="head_col_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.15 0.25"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Head/camera -->
+  <!-- Telescoping neck -->
+  <!-- J -->
   <joint name="torso_head_tele_joint" type="prismatic">
-    <origin rpy="0 0 3.14159" xyz="0.0 0.0 0.0"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     <parent link="torso_link"/>
     <child link="head_tele_link"/>
     <axis xyz="0 0 1"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
     <limit effort="1.0" lower="0" upper="0.19" velocity="0.1"/>
   </joint>
+  <!-- L -->
   <link name="head_tele_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -141,37 +173,64 @@
       </geometry>
       <material name="yellow"/>
     </visual>
-    <collision>
+    <!--collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.02 0.02 0.5"/>
+        </geometry>
+      </collision!-->
+  </link>
+  <!-- Neck to pan fixed -->
+  <!-- J -->
+  <joint name="head_neck_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.135"/>
+    <parent link="head_tele_link"/>
+    <child link="head_neck_link"/>
+  </joint>
+  <!-- L -->
+  <!-- This contains the head collision box -->
+  <link name="head_neck_link">
+    <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.02 0.02 0.5"/>
+        <box size="0.01 0.03 0.03"/>
       </geometry>
-    </collision>
+      <material name="green"/>
+    </visual>
+    <!--collision>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.2"/>
+        </geometry>
+      </collision!-->
   </link>
-  <!-- Pan joint/link -->
+  <!-- Pan -->
+  <!-- J  -->
   <joint name="head_pan_joint" type="revolute">
-    <axis xyz="0 0 1"/>
-    <origin rpy="0 0 0" xyz="0 0 0.135"/>
-    <limit effort="1000.0" lower="1.570795" upper="-1.570795" velocity="0.5"/>
-    <parent link="head_tele_link"/>
+    <axis xyz="0 0 -1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.02"/>
+    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
+    <parent link="head_neck_link"/>
     <child link="head_pan_link"/>
   </joint>
+  <!-- L -->
   <link name="head_pan_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.03 0.03 0.03"/>
+        <box size="0.03 0.03 0.01"/>
       </geometry>
       <material name="blue"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.03 0.03 0.03"/>
-      </geometry>
-    </collision>
+    <!--collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.03 0.03 0.01"/>
+        </geometry>
+      </collision!-->
   </link>
-  <!-- Tilt joint/link -->
+  <!-- Tilt -->
+  <!-- J -->
   <joint name="head_tilt_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <origin rpy="0 0 0" xyz="0 0.01 0"/>
@@ -179,65 +238,110 @@
     <parent link="head_pan_link"/>
     <child link="head_tilt_link"/>
   </joint>
+  <!-- L -->
   <link name="head_tilt_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0.012 0"/>
+      <origin rpy="0 0 0" xyz="0 0.01 0"/>
       <geometry>
-        <box size="0.03 0.03 0.01"/>
+        <box size="0.035 0.025 0.01"/>
       </geometry>
-      <material name="green"/>
+      <material name="indigo"/>
     </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0.03 0.03 0.01"/>
-      </geometry>
-    </collision>
+    <!--collision>
+        <origin xyz="0 0.01 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.035 0.025 0.01"/>
+        </geometry>
+      </collision!-->
   </link>
-  <!-- Realsense joint/link -->
+  <!-- Realsense body -->
+  <!-- J -->
   <joint name="head_realsense_joint" type="fixed">
-    <origin rpy="0 0 3.14159" xyz="0.0 0.0 0.0"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     <parent link="head_tilt_link"/>
     <child link="realsense_link"/>
   </joint>
+  <!-- L -->
   <link name="realsense_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 -0.025 -0.01"/>
+      <origin rpy="0 0 3.14159" xyz="0.01 0.025 -0.01"/>
       <geometry>
         <mesh filename="package://robo_description/meshes/camera/vis/RealSense.STL" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="yellow"/>
+      <material name="realsensecolor"/>
     </visual>
-    <collision>
+    <!--collision>
+        <origin xyz="0.01 0.025 -0.01" rpy="0 0 ${pi}"/>
+        <geometry>
+          <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="${scale} ${scale} ${scale}"/>
+        </geometry>
+      </collision!-->
+  </link>
+  <!-- Head tracker point A -->
+  <!-- J -->
+  <joint name="head_tracker_A_joint" type="fixed">
+    <!--axis xyz="1 1 1"/-->
+    <!--limit effort="1000.0" lower="${pi}" upper="${pi}" velocity="0.5"/-->
+    <!--origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/-->
+    <origin rpy="1.57 1.57 0.0" xyz="0 -0.01 0"/>
+    <parent link="realsense_link"/>
+    <child link="head_tracker_A_link"/>
+  </joint>
+  <!-- L -->
+  <link name="head_tracker_A_link">
+    <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <!--box size="0.1 0.02 0.02"/-->
-        <mesh filename="package://robo_description/meshes/camera/col/col_camera_03.STL" scale="0.001 0.001 0.001"/>
+        <box size="0.01 0.01 0.01"/>
       </geometry>
-    </collision>
+      <material name="indigo"/>
+    </visual>
+  </link>
+  <!-- Head tracker point B -->
+  <!-- J2 -->
+  <joint name="head_tracker_B_joint" type="fixed">
+    <!--axis xyz="1 1 1"/-->
+    <!--limit effort="1000.0" lower="${pi}" upper="${pi}" velocity="0.5"/-->
+    <!--origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/-->
+    <origin rpy="0.628318 1.57 0.0" xyz="0 0 0"/>
+    <parent link="head_tracker_A_link"/>
+    <child link="head_tracker_B_link"/>
+  </joint>
+  <!-- L2 -->
+  <link name="head_tracker_B_link">
+    <!--visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>          
+          <box size="0.01 0.01 0.01"/>
+        </geometry>
+        <material name="orange"/>
+      </visual-->
   </link>
   <!-- realsense_frame -->
+  <!-- J -->
   <joint name="head_realsense_frame_joint" type="fixed">
-    <origin xyz="0 -0.027 0" rpy="0 0 0"/>
-    <!--origin xyz="0.0 0.0 0.0" rpy="0 0 3.14159"/-->
+    <origin rpy="1.570795 3.14159 3.14159" xyz="0.0588 0.027 0.0037"/>
     <parent link="realsense_link"/>
     <child link="realsense_frame"/>
   </joint>
+  <!-- L -->
   <link name="realsense_frame">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.003 0.003 0.0005"/>
       </geometry>
-      <material name="blue"/>
+      <material name="violet"/>
     </visual>
   </link>
-  <!-- camera_depth_optical_frame -->
+  <!-- camera_depth_frame -->
+  <!-- J -->
   <joint name="head_depth_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="realsense_frame"/>
     <child link="camera_depth_optical_frame"/>
   </joint>
+  <!-- L -->
   <link name="camera_depth_optical_frame">
     <inertial>
       <mass value="0.000001"/>
@@ -246,27 +350,48 @@
     </inertial>
   </link>
   <!-- camera_color_optical_frame -->
+  <!-- J -->
   <joint name="head_rgb_joint" type="fixed">
-    <origin xyz="0.05 0 0" rpy="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0.0003 0"/>
     <parent link="realsense_frame"/>
     <child link="camera_color_optical_frame"/>
   </joint>
+  <!-- L -->
   <link name="camera_color_optical_frame">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.003 0.003 0.001"/>
+      </geometry>
+      <material name="violet"/>
+    </visual>
     <inertial>
       <mass value="0.000001"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
     </inertial>
   </link>
-  <!-- Attach the right arm -->
-  <!-- arm base joint -->
+  <!-- Right arm -->
+  <!-- Arm base -->
+  <!-- L -->
   <link name="right_arm_base_link"/>
+  <!-- J -->
   <joint name="right_arm_base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.143 0.0055 0.047"/>
+    <origin rpy="0 0 3.14159" xyz="0.143 0.0055 0.047"/>
     <parent link="torso_link"/>
     <child link="right_arm_base_link"/>
   </joint>
-  <!-- Shoulder_A -->
+  <!-- Arm out -->
+  <!-- J -->
+  <joint name="right_arm_out_joint" type="revolute">
+    <axis xyz="0 1.0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 3.14159" xyz="0.143 0.0055 0.047"/>
+    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
+    <parent link="right_arm_base_link"/>
+    <child link="right_arm_shouldera_link"/>
+  </joint>
+  <!-- L -->
   <link name="right_arm_shouldera_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -282,14 +407,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_arm_out_joint" type="revolute">
-    <axis xyz="0 1.0 0"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
-    <parent link="right_arm_base_link"/>
-    <child link="right_arm_shouldera_link"/>
+  <!-- Arm forward -->
+  <!-- J -->
+  <joint name="right_arm_fwd_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="-0.012 0.005 -0.04"/>
+    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
+    <parent link="right_arm_shouldera_link"/>
+    <child link="right_arm_shoulderb_link"/>
   </joint>
-  <!-- Shoulder_B -->
+  <!-- L -->
   <link name="right_arm_shoulderb_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -305,14 +432,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_arm_fwd_joint" type="revolute">
-    <axis xyz="-1 0 0"/>
-    <origin rpy="0 0 0" xyz="-0.012 0.005 -0.04"/>
-    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
-    <parent link="right_arm_shouldera_link"/>
-    <child link="right_arm_shoulderb_link"/>
+  <!-- Arm rotate -->
+  <!-- J -->
+  <joint name="right_arm_rotate_joint" type="revolute">
+    <axis xyz="0 0 -1"/>
+    <origin rpy="0 0 0" xyz="-0.06 0 -0.059"/>
+    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
+    <parent link="right_arm_shoulderb_link"/>
+    <child link="right_arm_biceps_link"/>
   </joint>
-  <!-- Biceps -->
+  <!-- L -->
   <link name="right_arm_biceps_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -328,14 +457,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_arm_rotate_joint" type="revolute">
-    <axis xyz="0 0 -1"/>
-    <origin rpy="0 0 0" xyz="-0.06 0 -0.059"/>
-    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
-    <parent link="right_arm_shoulderb_link"/>
-    <child link="right_arm_biceps_link"/>
+  <!-- Elbow -->
+  <!-- J -->
+  <joint name="right_elbow_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0.029 -0.225"/>
+    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
+    <parent link="right_arm_biceps_link"/>
+    <child link="right_arm_forearm_link"/>
   </joint>
-  <!-- Forearm -->
+  <!-- L -->
   <link name="right_arm_forearm_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -351,14 +482,17 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_elbow_joint" type="revolute">
-    <axis xyz="-1 0 0"/>
-    <origin rpy="0 0 0" xyz="0 0.029 -0.225"/>
-    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
-    <parent link="right_arm_biceps_link"/>
-    <child link="right_arm_forearm_link"/>
-  </joint>
   <!-- Wrist/Hand -->
+  <!-- J -->
+  <joint name="right_wrist_joint" type="revolute">
+    <axis xyz="0 0 1.0"/>
+    <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
+    <origin rpy="0 0 0" xyz="0.008 0.01 -0.2888"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="right_arm_forearm_link"/>
+    <child link="right_arm_wrist_link"/>
+  </joint>
+  <!-- L -->
   <link name="right_arm_wrist_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -374,23 +508,26 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_wrist_joint" type="revolute">
-    <axis xyz="0 0 1.0"/>
-    <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
-    <origin rpy="0 0 0" xyz="0.008 0.01 -0.2888"/>
-    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
-    <parent link="right_arm_forearm_link"/>
-    <child link="right_arm_wrist_link"/>
-  </joint>
-  <!-- Attach the right gripper -->
+  <!-- Right gripper -->
   <!-- gripper base joint -->
+  <!-- L -->
   <link name="right_gripper_base_link"/>
+  <!-- J -->
   <joint name="right_gripper_base_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="right_arm_wrist_link"/>
     <child link="right_gripper_base_link"/>
   </joint>
   <!-- Index -->
+  <!-- J -->
+  <joint name="right_gripper_index_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="-0.034 0 -0.119"/>
+    <axis xyz="-1 0 0"/>
+    <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
+    <parent link="right_gripper_base_link"/>
+    <child link="right_gripper_index_link"/>
+  </joint>
+  <!-- L -->
   <link name="right_gripper_index_link">
     <inertial>
       <mass value="0.00001"/>
@@ -411,14 +548,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_gripper_index_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="-0.034 0 -0.119"/>
-    <axis xyz="-1 0 0"/>
+  <!-- Thumb -->
+  <!-- J -->
+  <joint name="right_gripper_thumb_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="-0.06 0 -0.0685"/>
+    <axis xyz="0 0 1.0"/>
     <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
     <parent link="right_gripper_base_link"/>
-    <child link="right_gripper_index_link"/>
+    <child link="right_gripper_thumb_link"/>
   </joint>
-  <!-- Thumb -->
+  <!-- L -->
   <link name="right_gripper_thumb_link">
     <inertial>
       <mass value="0.00001"/>
@@ -439,14 +578,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_gripper_thumb_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="-0.06 0 -0.0685"/>
-    <axis xyz="0 0 1.0"/>
-    <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
-    <parent link="right_gripper_base_link"/>
-    <child link="right_gripper_thumb_link"/>
-  </joint>
   <!-- Fake gripper link and joint for grasp planning -->
+  <!-- J -->
+  <joint name="right_gripper_joint" type="fixed">
+    <origin rpy="-1.570795 0 0" xyz="0 -0.03 -0.09"/>
+    <parent link="right_gripper_base_link"/>
+    <child link="right_gripper_link"/>
+  </joint>
+  <!-- L -->
   <link name="right_gripper_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -461,20 +600,27 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_gripper_joint" type="fixed">
-    <origin rpy="-1.570795 0 0" xyz="0 -0.03 -0.09"/>
-    <parent link="right_gripper_base_link"/>
-    <child link="right_gripper_link"/>
-  </joint>
-  <!-- Attach the left arm -->
-  <!-- arm base joint -->
+  <!-- Left arm -->
+  <!-- Arm base -->
+  <!-- L -->
   <link name="left_arm_base_link"/>
+  <!-- J -->
   <joint name="left_arm_base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.143 0.0055 0.047"/>
+    <origin rpy="0 0 3.14159" xyz="-0.143 0.0055 0.047"/>
     <parent link="torso_link"/>
     <child link="left_arm_base_link"/>
   </joint>
-  <!-- Shoulder_A -->
+  <!-- Arm out -->
+  <!-- J -->
+  <joint name="left_arm_out_joint" type="revolute">
+    <axis xyz="0 -1.0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <origin rpy="0 0 3.14159" xyz="-0.143 0.0055 0.047"/>
+    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
+    <parent link="left_arm_base_link"/>
+    <child link="left_arm_shouldera_link"/>
+  </joint>
+  <!-- L -->
   <link name="left_arm_shouldera_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -490,14 +636,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_arm_out_joint" type="revolute">
-    <axis xyz="0 -1.0 0"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="1.5707963" velocity="0.5"/>
-    <parent link="left_arm_base_link"/>
-    <child link="left_arm_shouldera_link"/>
+  <!-- Arm forward -->
+  <!-- J -->
+  <joint name="left_arm_fwd_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="0.012 0.005 -0.04"/>
+    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
+    <parent link="left_arm_shouldera_link"/>
+    <child link="left_arm_shoulderb_link"/>
   </joint>
-  <!-- Shoulder_B -->
+  <!-- L -->
   <link name="left_arm_shoulderb_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -513,14 +661,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_arm_fwd_joint" type="revolute">
-    <axis xyz="-1 0 0"/>
-    <origin rpy="0 0 0" xyz="0.012 0.005 -0.04"/>
-    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
-    <parent link="left_arm_shouldera_link"/>
-    <child link="left_arm_shoulderb_link"/>
+  <!-- Arm rotate -->
+  <!-- J -->
+  <joint name="left_arm_rotate_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0.06 0 -0.059"/>
+    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
+    <parent link="left_arm_shoulderb_link"/>
+    <child link="left_arm_biceps_link"/>
   </joint>
-  <!-- Biceps -->
+  <!-- L -->
   <link name="left_arm_biceps_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -536,14 +686,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_arm_rotate_joint" type="revolute">
-    <axis xyz="0 0 1"/>
-    <origin rpy="0 0 0" xyz="0.06 0 -0.059"/>
-    <limit effort="1000.0" lower="-1.570795" upper="1.570795" velocity="0.5"/>
-    <parent link="left_arm_shoulderb_link"/>
-    <child link="left_arm_biceps_link"/>
+  <!-- Elbow -->
+  <!-- J -->
+  <joint name="left_elbow_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0.029 -0.225"/>
+    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
+    <parent link="left_arm_biceps_link"/>
+    <child link="left_arm_forearm_link"/>
   </joint>
-  <!-- Forearm -->
+  <!-- L -->
   <link name="left_arm_forearm_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -559,14 +711,17 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_elbow_joint" type="revolute">
-    <axis xyz="-1 0 0"/>
-    <origin rpy="0 0 0" xyz="0 0.029 -0.225"/>
-    <limit effort="1000.0" lower="0.0" upper="1.570795" velocity="0.5"/>
-    <parent link="left_arm_biceps_link"/>
-    <child link="left_arm_forearm_link"/>
-  </joint>
   <!-- Wrist/Hand -->
+  <!-- J -->
+  <joint name="left_wrist_joint" type="revolute">
+    <axis xyz="0 0 -1.0"/>
+    <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
+    <origin rpy="0 0 0" xyz="0.008 -0.01 -0.2888"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="left_arm_forearm_link"/>
+    <child link="left_arm_wrist_link"/>
+  </joint>
+  <!-- L -->
   <link name="left_arm_wrist_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -582,23 +737,26 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_wrist_joint" type="revolute">
-    <axis xyz="0 0 -1.0"/>
-    <!--origin rpy="0 0 0" xyz=".009972 .012326 -.288718"/-->
-    <origin rpy="0 0 0" xyz="0.008 -0.01 -0.2888"/>
-    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
-    <parent link="left_arm_forearm_link"/>
-    <child link="left_arm_wrist_link"/>
-  </joint>
-  <!-- Attach the left gripper -->
+  <!-- Left gripper -->
   <!-- gripper base joint -->
+  <!-- L -->
   <link name="left_gripper_base_link"/>
+  <!-- J -->
   <joint name="left_gripper_base_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="left_arm_wrist_link"/>
     <child link="left_gripper_base_link"/>
   </joint>
   <!-- Index -->
+  <!-- J -->
+  <joint name="left_gripper_index_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.034 0 -0.119"/>
+    <axis xyz="-1 0 0"/>
+    <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
+    <parent link="left_gripper_base_link"/>
+    <child link="left_gripper_index_link"/>
+  </joint>
+  <!-- L -->
   <link name="left_gripper_index_link">
     <inertial>
       <mass value="0.00001"/>
@@ -619,14 +777,16 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_gripper_index_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0.034 0 -0.119"/>
-    <axis xyz="-1 0 0"/>
+  <!-- Thumb -->
+  <!-- J -->
+  <joint name="left_gripper_thumb_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.06 0 -0.0685"/>
+    <axis xyz="0 0 -1.0"/>
     <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
     <parent link="left_gripper_base_link"/>
-    <child link="left_gripper_index_link"/>
+    <child link="left_gripper_thumb_link"/>
   </joint>
-  <!-- Thumb -->
+  <!-- L -->
   <link name="left_gripper_thumb_link">
     <inertial>
       <mass value="0.00001"/>
@@ -647,14 +807,14 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_gripper_thumb_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0.06 0 -0.0685"/>
-    <axis xyz="0 0 -1.0"/>
-    <limit effort="1.0" lower="0.0" upper="1.570795" velocity="3.14"/>
-    <parent link="left_gripper_base_link"/>
-    <child link="left_gripper_thumb_link"/>
-  </joint>
   <!-- Fake gripper link and joint for grasp planning -->
+  <!-- J -->
+  <joint name="left_gripper_joint" type="fixed">
+    <origin rpy="-1.570795 0 0" xyz="0 -0.03 -0.09"/>
+    <parent link="left_gripper_base_link"/>
+    <child link="left_gripper_link"/>
+  </joint>
+  <!-- L -->
   <link name="left_gripper_link">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -669,10 +829,5 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_gripper_joint" type="fixed">
-    <origin rpy="-1.570795 0 0" xyz="0 -0.03 -0.09"/>
-    <parent link="left_gripper_base_link"/>
-    <child link="left_gripper_link"/>
-  </joint>
 </robot>
 
