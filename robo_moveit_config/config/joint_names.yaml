@@ -1,0 +1,1 @@
+controller_joint_names: [right_arm_out_joint, right_arm_fwd_joint, right_arm_rotate_joint, right_elbow_joint, right_wrist_joint]

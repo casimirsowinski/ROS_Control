@@ -1,0 +1,28 @@
+controller_list:
+  - name: fake_head_controller
+    joints:
+      - torso_head_tele_joint
+      - head_pan_joint
+      - head_tilt_joint
+  - name: fake_right_arm_controller
+    joints:
+      - right_arm_out_joint
+      - right_arm_fwd_joint
+      - right_arm_rotate_joint
+      - right_elbow_joint
+      - right_wrist_joint
+  - name: fake_right_gripper_controller
+    joints:
+      - right_gripper_index_joint
+      - right_gripper_thumb_joint
+  - name: fake_left_arm_controller
+    joints:
+      - left_arm_out_joint
+      - left_arm_fwd_joint
+      - left_arm_rotate_joint
+      - left_elbow_joint
+      - left_wrist_joint
+  - name: fake_left_gripper_controller
+    joints:
+      - left_gripper_index_joint
+      - left_gripper_thumb_joint

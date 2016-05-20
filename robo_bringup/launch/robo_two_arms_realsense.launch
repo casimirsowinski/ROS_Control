@@ -5,15 +5,15 @@
    <!-- Launch the arbotix driver in fake mode by default -->
    <arg name="sim" default="true" />
    
-   <!-- If using a real controller, look on /dev/ttyUSB0 by default -->
-   <arg name="port" default="/dev/ttyUSB0" />
+   <!-- If using a real controller, look on /dev/ttyACM0 by default -->
+   <arg name="port" default="/dev/ttyACM0" />
    
    <!-- Load the URDF/Xacro model of our robot -->
    <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo_two_arms_realsense.xacro'" />
    
    <!-- Bring up the arbotix driver with a configuration file appropriate to the robot -->
    <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
-      <rosparam file="$(find robo_bringup)/config/robo_two_arms_realsense.yaml" command="load" />
+      <rosparam file="$(find robo_bringup)/config/robo.yaml" command="load" />
       <param name="sim" value="$(arg sim)" />
       <param name="port" value="$(arg port)" />
    </node>
@@ -28,7 +28,7 @@
          finger_length: 0.065
          min_opening: -0.8
          max_opening: 0.5
-         joint: right_gripper_finger_joint
+         joint: right_gripper_index_joint
       </rosparam>
    </node>
 

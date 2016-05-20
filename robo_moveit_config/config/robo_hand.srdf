@@ -56,8 +56,8 @@
         <joint name="torso_head_tele_joint" value="0.1206" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="right_end_effector" parent_link="right_gripper_link" group="right_gripper" />
     <end_effector name="left_end_effector" parent_link="left_gripper_base_link" group="left_gripper" />
+    <end_effector name="right_end_effector" parent_link="right_gripper_base_link" group="right_gripper" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="base_odom" type="planar" parent_frame="odom_combined" child_link="base_footprint" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->

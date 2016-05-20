@@ -2,13 +2,12 @@
   <name>robo_bringup</name>
   <version>0.1.0</version>
 
-  <description>ROS by Example Vol 2 - Bringup Package</description>
+  <description>robo_hand - Bringup Package</description>
 
-  <maintainer email="patrick@pirobot.org">Patrick Goebel</maintainer>
+  <maintainer email="casimirsowinski@gmail.com">Casimir Sowinski</maintainer>
   <license>BSD</license>
-  <url type="website">http://ros.org/wiki/rbx2_bringup</url>
-  <url type="bugtracker">https://github.com/pirobot/rbx2/issues</url>
-  <author email="patrick@pirobot.org">Patrick Goebel</author>
+  <url type="website">https://github.com/casimirsowinski/robo_hand_01.git</url>
+  <author email="casimirsowinski@gmail.com">Casimir Sowinski</author>
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>

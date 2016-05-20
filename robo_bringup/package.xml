@@ -4,11 +4,10 @@
 
   <description>robo_hand - Bringup Package</description>
 
-  <maintainer email="casimir@pdx.edu">Casimir Sowinski</maintainer>
+  <maintainer email="casimirsowinski@gmail.com">Casimir Sowinski</maintainer>
   <license>BSD</license>
-  <url type="website">https://github.com/casimirsowinski/robo_hand_01</url>
-  <url type="bugtracker"></url>
-  <author email="casimir@pdx.edu">Casimir Sowinski</author>
+  <url type="repository">https://github.com/casimirsowinski/robo_hand_01.git</url>
+  <author email="casimirsowinski@gmail.com">Casimir Sowinski</author>
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
