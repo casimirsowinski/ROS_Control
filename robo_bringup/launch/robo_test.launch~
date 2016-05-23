@@ -1,0 +1,111 @@
+<launch>
+  <!-- 1 -->
+  <!-- Make sure we are not using simulated time -->
+  <param name="/use_sim_time" value="false"/>
+  <!-- 2 -->
+  <!-- Launch the arbotix driver in fake mode by default -->
+  <arg name="sim" default="true"/>
+  <!-- 3 -->
+  <!-- If using a real controller, look on /dev/ttyACM0 by default -->
+  <arg name="port" default="/dev/ttyACM0" />
+  <!-- 4 -->
+  <!-- Load the URDF/Xacro model of our robot -->  
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find robo_description)/urdf/robo_two_arms_realsense.xacro'"/>
+  <!-- 5 -->
+  <!-- Bring up the arbotix driver with a configuration file appropriate to the robot -->
+  <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" clear_params="true" output="screen">
+     <rosparam file="$(find robo_arduino)/config/robo.yaml" command="load"/>
+     <param name="sim" value="$(arg sim)"/>
+     <param name="port" value="$(arg port)"/>
+  </node>
+  <!-- 6A -->
+  <!-- Run a separate controller for the one sided gripper -->
+  <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+     <rosparam>
+        model: singlesided
+        invert: true
+        center: 0.0
+        pad_width: 0.004
+        finger_length: 0.065
+        min_opening: -0.8
+        max_opening: 0.5
+        joint: right_gripper_index_joint
+     </rosparam>
+  </node>
+  <!-- 6B -->
+  <!-- Run a separate controller for the one sided gripper -->
+  <node name="left_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+     <rosparam>
+        model: singlesided
+        invert: true
+        center: 0.0
+        pad_width: 0.004
+        finger_length: 0.065
+        min_opening: -0.8
+        max_opening: 0.5
+        joint: left_gripper_index_joint
+     </rosparam>
+  </node>
+  <!-- 7 -->
+  <!-- Publish the robot state -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    <param name="publish_frequency" type="double" value="20.0"/>
+  </node>
+  <!-- 8 -->
+  <!-- Start all servos in a relaxed state -->
+  <node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)"/>
+  <!-- 9 -->
+  <!-- Load diagnostics -->
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" clear_params="true" unless="$(arg sim)">
+    <rosparam command="load" file="$(find rbx2_dynamixels)/config/dynamixel_diagnostics.yaml"/>
+  </node>
+  <!-- 10 -->
+  <node pkg="rqt_robot_monitor" type="rqt_robot_monitor" name="rqt_robot_monitor" unless="$(arg sim)"/>
+  <!-- 11 -->  
+  <!-- Launch RViz -->
+  <!--arg name="command_args" value="-d $(find robo_description)/urdf.rviz"/>
+  <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="$(arg command_args)" output="screen">    
+     <rosparam command="load" file="$(find robo_moveit_config)/config/kinematics.yaml"/>     
+  </node-->
+  
+  
+  
+  <!--  -->
+  <!-- By default, we are not in debug mode -->
+  <!--arg name="debug" default="false"/--> 
+
+  
+  
+  
+
+  <!-- Run the main MoveIt executable without trajectory execution >
+  <include file="$(find robo_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="true"/>
+    <arg name="info" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include-->
+
+  
+   
+  <!-- Publish Joint States for Arduino Controller >
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="false"/>
+    <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+  </node-->
+   
+
+   
+   
+   
+  <!-- Start all servos in a relaxed state -->
+  <!--node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)" /-->
+   
+  <!-- Load diagnostics >
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" clear_params="true" unless="$(arg sim)">
+    <rosparam command="load" file="$(find rbx2_dynamixels)/config/dynamixel_diagnostics.yaml"/>
+  </node>
+
+  <node pkg="rqt_robot_monitor" type="rqt_robot_monitor" name="rqt_robot_monitor" unless="$(arg sim)"/>
+  -->
+</launch>

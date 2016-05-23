@@ -37,7 +37,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_index_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="violet"/>
+        <material name="${color}"/>
       </visual>      
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -69,7 +69,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_thumb_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="violet"/>
+        <material name="${color}"/>
       </visual>      
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>

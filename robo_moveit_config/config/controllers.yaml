@@ -4,6 +4,7 @@ controller_list:
     type: FollowJointTrajectory
     default: true
     joints:
+      #- right_arm_base_joint
       - right_arm_out_joint
       - right_arm_fwd_joint
       - right_arm_rotate_joint
@@ -21,6 +22,7 @@ controller_list:
     type: FollowJointTrajectory
     default: true
     joints:
+      #- left_arm_out_joint
       - left_arm_out_joint
       - left_arm_fwd_joint
       - left_arm_rotate_joint

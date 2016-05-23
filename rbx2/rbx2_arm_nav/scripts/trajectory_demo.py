@@ -37,36 +37,57 @@ class TrajectoryDemo():
         # Set to False to wait for arm to finish before moving head
         sync = rospy.get_param('~sync', True)
         
-        # Which joints define the arm?
-        arm_joints = ['right_arm_shoulder_pan_joint',
-                      'right_arm_shoulder_lift_joint',
-                      'right_arm_shoulder_roll_joint', 
-                      'right_arm_elbow_flex_joint',
-                      'right_arm_forearm_flex_joint',
-                      'right_arm_wrist_flex_joint']
+        # Arm joints
+        right_arm_joints = ['right_arm_out_joint',
+                            'right_arm_fwd_joint',
+                            'right_arm_rotate_joint',
+                            'right_elbow_joint',
+                            'right_wrist_joint']
+                            
+        left_arm_joints = ['left_arm_out_joint',
+                            'left_arm_fwd_joint',
+                            'left_arm_rotate_joint',
+                            'left_elbow_joint',
+                            'left_wrist_joint']  
         
         # Which joints define the head?
-        head_joints = ['head_pan_joint', 'head_tilt_joint']
+        ##head_joints = ['head_pan_joint', 'head_tilt_joint']
+        head_joints = ['torso_head_tele_joint', 'head_pan_joint', 'head_tilt_joint']
         
         if reset:
-            # Set the arm back to the resting position
-            arm_goal  = [0, 0, 0, 0, 0, 0]
+            # Set the right arm back to the resting position
+            right_arm_goal  = [0, 0, 0, 0, 0, 0]
+            
+            # Set the left arm back to the resting position            
+            left_arm_goal  = [0, 0, 0, 0, 0, 0]
             
             # Re-center the head
-            head_goal = [0, 0]  
+            head_goal = [0, 0, 0] 
         else:
-            # Set a goal configuration for the arm
-            arm_goal  = [-0.3, -2.0, -1.0, 0.8, 1.0, -0.7]
-            
+            # Set a goal configuration for the right arm
+            right_arm_goal  = [0.1, 0.2, -0.2, 1.3, 1.6]
+        
+            # Set a goal configuration for the left arm
+            left_arm_goal  = [0.1, 0.2, -0.2, 1.3, 1.6]
+                        
             # Set a goal configuration for the head
-            head_goal = [-1.3, -0.1]
+            head_goal = [0.05, 0, -0.6]
     
         # Connect to the right arm trajectory action server
         rospy.loginfo('Waiting for right arm trajectory controller...')
         
-        arm_client = actionlib.SimpleActionClient('right_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        right_arm_client = actionlib.SimpleActionClient('right_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
         
-        arm_client.wait_for_server()
+        right_arm_client.wait_for_server()
+        
+        rospy.loginfo('...connected.')
+        
+        # Connect to the left arm trajectory action server
+        rospy.loginfo('Waiting for left arm trajectory controller...')
+        
+        left_arm_client = actionlib.SimpleActionClient('left_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        
+        left_arm_client.wait_for_server()
         
         rospy.loginfo('...connected.')
         
@@ -79,33 +100,61 @@ class TrajectoryDemo():
         
         rospy.loginfo('...connected.')    
     
-        # Create a single-point arm trajectory with the arm_goal as the end-point
-        arm_trajectory = JointTrajectory()
-        arm_trajectory.joint_names = arm_joints
-        arm_trajectory.points.append(JointTrajectoryPoint())
-        arm_trajectory.points[0].positions = arm_goal
-        arm_trajectory.points[0].velocities = [0.0 for i in arm_joints]
-        arm_trajectory.points[0].accelerations = [0.0 for i in arm_joints]
-        arm_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+        # Create a single-point right arm trajectory with the right_arm_goal as the end-point
+        right_arm_trajectory = JointTrajectory()
+        right_arm_trajectory.joint_names = right_arm_joints
+        right_arm_trajectory.points.append(JointTrajectoryPoint())
+        right_arm_trajectory.points[0].positions = right_arm_goal
+        right_arm_trajectory.points[0].velocities = [0.0 for i in right_arm_joints]
+        right_arm_trajectory.points[0].accelerations = [0.0 for i in right_arm_joints]
+        right_arm_trajectory.points[0].time_from_start = rospy.Duration(3.0)
     
-        # Send the trajectory to the arm action server
-        rospy.loginfo('Moving the arm to goal position...')
+        # Send the trajectory to the right arm action server
+        rospy.loginfo('Moving the right arm to goal position...')
         
         # Create an empty trajectory goal
-        arm_goal = FollowJointTrajectoryGoal()
+        right_arm_goal = FollowJointTrajectoryGoal()
         
         # Set the trajectory component to the goal trajectory created above
-        arm_goal.trajectory = arm_trajectory
+        right_arm_goal.trajectory = right_arm_trajectory
         
         # Specify zero tolerance for the execution time
-        arm_goal.goal_time_tolerance = rospy.Duration(0.0)
+        right_arm_goal.goal_time_tolerance = rospy.Duration(0.5)
     
         # Send the goal to the action server
-        arm_client.send_goal(arm_goal)
+        right_arm_client.send_goal(right_arm_goal)
         
         if not sync:
             # Wait for up to 5 seconds for the motion to complete 
-            arm_client.wait_for_result(rospy.Duration(5.0))
+            right_arm_client.wait_for_result(rospy.Duration(5.0))
+            
+        # Create a single-point left arm trajectory with the left_arm_goal as the end-point
+        left_arm_trajectory = JointTrajectory()
+        left_arm_trajectory.joint_names = left_arm_joints
+        left_arm_trajectory.points.append(JointTrajectoryPoint())
+        left_arm_trajectory.points[0].positions = left_arm_goal
+        left_arm_trajectory.points[0].velocities = [0.0 for i in left_arm_joints]
+        left_arm_trajectory.points[0].accelerations = [0.0 for i in left_arm_joints]
+        left_arm_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+    
+        # Send the trajectory to the left arm action server
+        rospy.loginfo('Moving the left arm to goal position...')
+        
+        # Create an empty trajectory goal
+        left_arm_goal = FollowJointTrajectoryGoal()
+        
+        # Set the trajectory component to the goal trajectory created above
+        left_arm_goal.trajectory = left_arm_trajectory
+        
+        # Specify zero tolerance for the execution time
+        left_arm_goal.goal_time_tolerance = rospy.Duration(0.5)
+    
+        # Send the goal to the action server
+        left_arm_client.send_goal(left_arm_goal)
+        
+        if not sync:
+            # Wait for up to 5 seconds for the motion to complete 
+            left_arm_client.wait_for_result(rospy.Duration(5.0))
         
         # Create a single-point head trajectory with the head_goal as the end-point
         head_trajectory = JointTrajectory()
@@ -121,7 +170,7 @@ class TrajectoryDemo():
         
         head_goal = FollowJointTrajectoryGoal()
         head_goal.trajectory = head_trajectory
-        head_goal.goal_time_tolerance = rospy.Duration(0.0)
+        head_goal.goal_time_tolerance = rospy.Duration(0.5)
     
         # Send the goal
         head_client.send_goal(head_goal)

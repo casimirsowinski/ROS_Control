@@ -32,7 +32,7 @@
     </link>
     <!-- J -->
     <joint name="head_col_joint" type="fixed">
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 0.24" rpy="0 0 0"/>
       <parent link="${name}_link"/>
       <child link="head_col_link"/>
     </joint>
@@ -43,7 +43,8 @@
         <geometry>
           <box size="0.01 0.01 0.01"/>
         </geometry>
-      </visual>
+        <material name="TransparentGreen"/>
+      </visual>    
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>

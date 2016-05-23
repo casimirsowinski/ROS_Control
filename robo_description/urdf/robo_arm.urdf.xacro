@@ -32,7 +32,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_shouldera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -57,7 +57,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_shoulderb_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="yellow"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -82,7 +82,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_biceps_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="green"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -107,7 +107,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_forearm_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="blue"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -133,7 +133,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_hand_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="indigo"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>

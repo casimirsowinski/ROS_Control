@@ -38,12 +38,13 @@
     </joint>
     <!-- L -->
     <link name="head_col_link">
-      <visual>
+      <!--visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.01 0.01 0.01"/>
         </geometry>
-      </visual>
+        <material name="TransparentGreen"/>
+      </visual-->    
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>

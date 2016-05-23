@@ -1,17 +1,10 @@
-controller_list:
-  - name: head_controller
-    action_ns: follow_joint_trajectory
-    type: FollowJointTrajectory
-    default: true
-    joints:
-      - torso_head_tele_joint
-      - head_pan_joint
-      - head_tilt_joint
+controller_list:  
   - name: right_arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
     joints:
+      - right_arm_base_joint
       - right_arm_out_joint
       - right_arm_fwd_joint
       - right_arm_rotate_joint
@@ -30,6 +23,7 @@ controller_list:
     default: true
     joints:
       - left_arm_out_joint
+      - left_arm_out_joint
       - left_arm_fwd_joint
       - left_arm_rotate_joint
       - left_elbow_joint
@@ -41,3 +35,11 @@ controller_list:
     joints:
       - left_gripper_index_joint
       - left_gripper_thumb_joint
+  - name: head_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - torso_head_tele_joint
+      - head_pan_joint
+      - head_tilt_joint

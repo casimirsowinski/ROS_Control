@@ -6,6 +6,7 @@ controller_list:
       - head_tilt_joint
   - name: fake_right_arm_controller
     joints:
+      #- right_arm_base_joint
       - right_arm_out_joint
       - right_arm_fwd_joint
       - right_arm_rotate_joint
@@ -17,6 +18,7 @@ controller_list:
       - right_gripper_thumb_joint
   - name: fake_left_arm_controller
     joints:
+      #- left_arm_base_joint
       - left_arm_out_joint
       - left_arm_fwd_joint
       - left_arm_rotate_joint

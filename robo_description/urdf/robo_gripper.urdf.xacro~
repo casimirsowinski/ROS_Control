@@ -6,14 +6,14 @@
   <!-- Macro -->
   <macro name="gripper" params="side reflect parent color *origin"> 
     <!-- gripper base joint -->
+    <!-- L -->
+    <link name="${side}_gripper_base_link"/>  
     <!-- J -->
     <joint name="${side}_gripper_base_joint" type="fixed">
       <xacro:insert_block name="origin"/>
       <parent link="${parent}_link"/>
       <child link="${side}_gripper_base_link"/>
     </joint>
-    <!-- L -->
-    <link name="${side}_gripper_base_link"/>  
     <!-- Index -->
     <!-- J -->
     <joint name="${side}_gripper_index_joint" type="revolute">

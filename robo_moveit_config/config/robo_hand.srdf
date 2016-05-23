@@ -282,7 +282,6 @@
     <disable_collisions link1="left_arm_forearm_link" link2="realsense_frame" reason="Never" />
     <disable_collisions link1="left_arm_forearm_link" link2="realsense_link" reason="Never" />
     <disable_collisions link1="left_arm_forearm_link" link2="right_arm_biceps_link" reason="Never" />
-    <disable_collisions link1="left_arm_forearm_link" link2="right_arm_forearm_link" reason="Never" />
     <disable_collisions link1="left_arm_forearm_link" link2="right_arm_shouldera_link" reason="Never" />
     <disable_collisions link1="left_arm_forearm_link" link2="right_arm_shoulderb_link" reason="Never" />
     <disable_collisions link1="left_arm_forearm_link" link2="right_gripper_link" reason="Never" />
@@ -325,7 +324,6 @@
     <disable_collisions link1="left_arm_wrist_link" link2="right_arm_biceps_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_link" link2="right_arm_shouldera_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_link" link2="right_arm_shoulderb_link" reason="Never" />
-    <disable_collisions link1="left_arm_wrist_link" link2="right_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="left_gripper_link" reason="Adjacent" />
     <disable_collisions link1="left_gripper_index_link" link2="left_gripper_thumb_link" reason="Adjacent" />
@@ -334,6 +332,7 @@
     <disable_collisions link1="left_gripper_index_link" link2="right_arm_biceps_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="right_arm_shouldera_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="right_arm_shoulderb_link" reason="Never" />
+    <disable_collisions link1="left_gripper_index_link" link2="right_gripper_index_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="right_gripper_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="right_gripper_thumb_link" reason="Never" />
     <disable_collisions link1="left_gripper_index_link" link2="torso_link" reason="Never" />
@@ -355,7 +354,6 @@
     <disable_collisions link1="left_gripper_thumb_link" link2="right_arm_shouldera_link" reason="Never" />
     <disable_collisions link1="left_gripper_thumb_link" link2="right_arm_shoulderb_link" reason="Never" />
     <disable_collisions link1="left_gripper_thumb_link" link2="right_gripper_link" reason="Never" />
-    <disable_collisions link1="left_gripper_thumb_link" link2="right_gripper_thumb_link" reason="Never" />
     <disable_collisions link1="left_gripper_thumb_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="realsense_frame" link2="realsense_link" reason="Adjacent" />
     <disable_collisions link1="realsense_frame" link2="right_arm_biceps_link" reason="Never" />
