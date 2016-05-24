@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+"""
+  robo hand stuff
+  
+"""
+
+import rospy, sys
+import moveit_commander
+from control_msgs.msg import GripperCommand
+
+class MoveItDemo:
+  def __init__(self):
+    # Init move_group API
+    moveit_commander.roscpp_initialize(sys.argv)
+    
+    # Init the ROS node
+    rospy.init_node('moveit_demo', anonymous=True)
+    
+    GRIPPER_OPEN = [0.005]
+    GRIPPER_CLOSED = [0.000]
+    GRIPPER_NEUTRAL = [0.002]

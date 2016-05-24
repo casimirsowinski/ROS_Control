@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robo_description
+    relative_path: urdf/robo.urdf
+  SRDF:
+    relative_path: config/robo_hand.srdf
+  CONFIG:
+    generated_timestamp: 1463969584
