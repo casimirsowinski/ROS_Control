@@ -1,14 +1,12 @@
 <package>
-  <name>rbx2_utils</name>
+  <name>robo_misc</name>
   <version>0.1.0</version>
+  <description>robo project miscellaneous package</description>
 
-  <description>ROS By Example Vol 2 - Utilities</description>
-
-  <maintainer email="patrick@pirobot.org">Patrick Goebel</maintainer>
+ <maintainer email="casimirsowinski@gmail.com">Casimir Sowinski</maintainer>
   <license>BSD</license>
-  <url type="website">http://ros.org/wiki/rbx2_apps</url>
-  <url type="bugtracker">https://github.com/pirobot/rbx2/utils</url>
-  <author email="patrick@pirobot.org">Patrick Goebel</author>
+  <url type="repository">https://github.com/casimirsowinski/robo_hand_01.git</url>
+  <author email="casimirsowinski@gmail.com">Casimir Sowinski</author>
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
@@ -24,7 +22,6 @@
   <build_depend>dynamixel_controllers</build_depend>
   <build_depend>dynamixel_msgs</build_depend>
   <build_depend>dynamixel_driver</build_depend>
-  <build_depend>message_generation</build_depend>
   <build_depend>arbotix_msgs</build_depend>
 
   <!-- Dependencies needed after this package is compiled. -->
@@ -39,7 +36,5 @@
   <run_depend>dynamixel_msgs</run_depend>
   <run_depend>dynamixel_driver</run_depend>
   <run_depend>arbotix_msgs</run_depend>  
-  
-  <run_depend>message_runtime</run_depend>
 
 </package>

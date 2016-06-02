@@ -118,7 +118,7 @@ void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
     
     //std::string temp = joint_msg->name[0];
     
-    std_msgs::String s;
+    
     
     //s.data = c.c_str(); //same data as above.
     //pthread_mutex_lock(&send_CS);
@@ -127,21 +127,25 @@ void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
     
     
     
-    s.data = joint_msg->name[0];
-    
     //const std::stringstream poop;
     
     //poop = temp;
     
-    std::string str ("torso_head_tele_joint");    
-    char * cstr = new char [str.length()+1];
-    std::strcpy (cstr, str.c_str());
+    std_msgs::String s;
+    s.data = joint_msg->name[0];        
+    char * cstr = new char [s.data.length()+1];
+    std::strcpy (cstr, s.data.c_str());
     
-    ROS_INFO(str);  
+    if(s.data.compare("head_pan_joint")){
+      ROS_INFO("success");
+    }
+    
+    ROS_INFO("cstr: %s", cstr);  
+    ROS_INFO("ROS string: %s", s.data.c_str());
     
     for(int i = 0; i < num_elements; i++){
       // head
-      if(joint_msg->name[i] == "torso_head_tele_joint"){
+      if(joint_msg->name[i] == cstr){
         head_idx[0] = i;
         ROS_INFO("testttttt");
       }
