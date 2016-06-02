@@ -42,9 +42,16 @@ void setup_USE_PIN();
 float rad2Polo(float);
 float deg2Polo(float);
 float deg2rad(float);
+float rad2deg(float);
 void pubPanRad();
 void pubTilRad();
-
+///////////////
+int D2P_elbow(float);
+int D2P_arm_rot(float);
+int D2P_arm_fwd(float);
+int D2P_arm_out(float);
+int D2P_wrist(float);
+  
 // Init ROS vars
 std_msgs::String str_msg;
 sensor_msgs::JointState state_g;
@@ -177,8 +184,7 @@ void setup(){
   // Handle pubs and subs
   nh.subscribe(sub_teleop);
   nh.subscribe(sub_trans);
-
-  /*
+  
   if(USE_HEAD){
     nh.subscribe(head_sub);
   }
@@ -198,7 +204,6 @@ void setup(){
   //nh.subscribe(right_arm_sub);
   nh.advertise(pan);
   nh.advertise(til); 
-  */
 
 }
 
@@ -212,32 +217,29 @@ void loop(){
     pubFlag = 0;
     nh.loginfo("Entered pub thingie"); 
   }
-  */   
+      
   // Publish if angles have been updated
   if (pan_ang_old.data != pan_ang.data) {
     pubPanRad();
     pan_ang_old.data = pan_ang.data;
-
-    char msg [50];
-    int numChar;  
-    numChar = sprintf(msg, "angle: %d", pan_ang.data);
-    nh.loginfo(msg);
-    
   }
   if (til_ang_old.data != til_ang.data) {
     pubTilRad();
     til_ang_old.data = til_ang.data;
   }     
-    
+  */  
   //maestro.setTarget(servo_pin_pan, rad2Polo(servo_test.data));  
   // Process callbacks and wait
   
   nh.spinOnce();
   delay(1);
   
-
-
-  
+  /*
+  char msg [50];
+  int numChar;  
+  numChar = sprintf(msg, "angle: %d", pan_ang.data);
+  nh.loginfo(msg);
+  */
 }
 
 //-----------------Function Definitions
@@ -251,9 +253,21 @@ void head_cb(const std_msgs::Float64MultiArray& j_state){
 
 void right_arm_cb(const std_msgs::Float64MultiArray& j_state){
   //nh.loginfo("Entered right_arm_cb"); 
+  /*
   for (int i = 0; i < RIGHT_ARM_SIZE; i++){
     maestro.setTarget(i + RIGHT_ARM_SP, rad2Polo(SCALE * 4 * j_state.data[i] + PI / 2));
   }
+  */
+  // Arm out
+  maestro.setTarget(RIGHT_ARM_SP + 0, D2P_arm_out(rad2deg(j_state.data[0])));
+  // Arm fwd
+  maestro.setTarget(RIGHT_ARM_SP + 1, D2P_arm_fwd(rad2deg(j_state.data[1])));
+  // Arm rot
+  maestro.setTarget(RIGHT_ARM_SP + 2, D2P_arm_rot(rad2deg(j_state.data[2])));
+  // Elbow
+  maestro.setTarget(RIGHT_ARM_SP + 3, D2P_elbow(rad2deg(j_state.data[3])));
+  // Writst
+  maestro.setTarget(RIGHT_ARM_SP + 4, D2P_wrist(rad2deg(j_state.data[4])));  
 }
 
 void right_gripper_cb(const std_msgs::Float64MultiArray& j_state){
@@ -370,3 +384,41 @@ void setup_USE_PIN(){
     }    
   }  
 }
+
+// Convert degrees to Pololu (0 to 140) -> (2400 to 8000)
+int D2P_elbow(float ang_deg){
+  //return (int) 2400 + ang_deg * 40;
+  //return (int) 2880 + ang_deg * 5120/ 135;
+  return (int) 2773 + ang_deg * 3111 / 58;
+}
+
+// Convert degrees to Pololu (-90 to 50) -> (2774 to 8000)
+int D2P_arm_rot(float ang_deg){
+  return (int) 6133.6 + ang_deg * 5226 / 140;
+}
+
+// Convert degrees to Pololu (-50 to 90) -> (2774 to 8000)
+int D2P_arm_fwd(float ang_deg){  
+  return (int) 4640.4 + ang_deg * 5226 / 140;
+}
+
+// Convert degrees to Pololu (0 to 90) -> (2774 to 8000)
+int D2P_arm_out(float ang_deg){  
+  return (int) 2948 + ang_deg * 2090 / 80;
+}
+
+// Convert degrees to Pololu (0 to 90) -> (2774 to 8000)
+int D2P_wrist(float ang_deg){  
+  //return (int) 2948 + ang_deg * 2090 / 80;
+  return 6000;
+}
+
+
+//////////////////////////////////
+float rad2deg(float ang_rad){
+  return ang_rad * 180 / PI;
+}
+
+
+
+

@@ -23,6 +23,7 @@
 void joint_cb(const sensor_msgs::JointState::ConstPtr&);
 void initArrays();
 void publishArrays();
+void printHeader();
 
 //----------Global vars
 // Arrays that hold joint angles for limbs 
@@ -38,11 +39,19 @@ const int RIGHT_GRIPPER_SIZE  = 2;
 const int LEFT_ARM_SIZE       = 5;
 const int LEFT_GRIPPER_SIZE   = 2;
 // Enable(1) or disable(0) limb publishing
-const bool USE_HEAD           = 0;
+const bool USE_HEAD           = 1;
 const bool USE_RIGHT_ARM      = 1;
-const bool USE_RIGHT_GRIPPER  = 0;
+const bool USE_RIGHT_GRIPPER  = 1;
 const bool USE_LEFT_ARM       = 0;
 const bool USE_LEFT_GRIPPER   = 0;
+// Arrays that hold the index for joints in joint_states
+int head_idx[HEAD_SIZE];
+int right_arm_idx[RIGHT_ARM_SIZE];
+int right_gripper_idx[RIGHT_GRIPPER_SIZE];
+int left_arm_idx[LEFT_ARM_SIZE];
+int left_gripper_idx[LEFT_GRIPPER_SIZE];
+// Flag to track whether to form index arrays
+int firstFlag = 1;
 
 //----------Main
 int main(int argc, char **argv){
@@ -52,6 +61,9 @@ int main(int argc, char **argv){
   
   // Init node so ROS can interact with it
   ros::NodeHandle nh;
+
+  // Print message
+  printHeader();
 
   // Subscribe to joint_states to pull all angles, velocities, accelerations, etc.
   ros::Subscriber arduino_joint_sub = nh.subscribe("joint_states", 100, joint_cb);
@@ -65,7 +77,7 @@ int main(int argc, char **argv){
 
   // Init vars
   ros::Rate loop_rate(20);        // Makes the while loop spin at 20 Hz
-  initArrays();    
+  initArrays();      
 
   // Loop and handle SIGINT (etc.) interruption
   while (ros::ok()){    
@@ -97,9 +109,128 @@ int main(int argc, char **argv){
 //----------Function definitions
 // Go through joint_state/position and divy up angles to seperate arrays to send over rosserial if they are enabled 
 void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
-  // Print message
-  //ROS_INFO("entered joint_cb"); 
-  // Keeps track of offset in joint_msg array 
+  
+  if(firstFlag){
+    ROS_INFO("Initializing index arrays...");
+    int num_elements = sizeof(joint_msg->name)/sizeof(joint_msg->name[0]);
+    
+//    const std::basic_string<char> temp = joint_msg->name[0];
+    
+    //std::string temp = joint_msg->name[0];
+    
+    std_msgs::String s;
+    
+    //s.data = c.c_str(); //same data as above.
+    //pthread_mutex_lock(&send_CS);
+    //tum_ardrone_pub.publish(s);
+    //pthread_mutex_unlock(&send_CS);
+    
+    
+    
+    s.data = joint_msg->name[0];
+    
+    //const std::stringstream poop;
+    
+    //poop = temp;
+    
+    std::string str ("torso_head_tele_joint");
+    
+    
+    ROS_INFO(str);  
+    
+    for(int i = 0; i < num_elements; i++){
+      // head
+      if(joint_msg->name[i] == "torso_head_tele_joint"){
+        head_idx[0] = i;
+        ROS_INFO("testttttt");
+      }
+      else if(joint_msg->name[i] == "head_pan_joint"){
+        head_idx[1] = i;
+      }
+      else if(joint_msg->name[i] == "head_tilt_joint"){
+        head_idx[2] = i;
+      }
+      // right arm
+      else if(joint_msg->name[i] == "right_arm_out_joint"){
+        right_arm_idx[0] = i;
+      }
+      else if(joint_msg->name[i] == "right_arm_fwd_joint"){
+        right_arm_idx[1] = i;
+      }
+      else if(joint_msg->name[i] == "right_arm_rotate_joint"){
+        right_arm_idx[2] = i;
+      }
+      else if(joint_msg->name[i] == "right_elbow_joint"){
+        right_arm_idx[3] = i;
+      }
+      else if(joint_msg->name[i] == "right_wrist_joint"){
+        right_arm_idx[4] = i;
+      }
+      // right gripper
+      else if(joint_msg->name[i] == "right_gripper_index_joint"){
+        right_gripper_idx[0] = i;
+      }
+      else if(joint_msg->name[i] == "right_gripper_thumb_joint"){
+        right_gripper_idx[1] = i;
+      }
+      // left arm
+      else if(joint_msg->name[i] == "left_arm_out_joint"){
+        left_arm_idx[0] = i;
+      }
+      else if(joint_msg->name[i] == "left_arm_fwd_joint"){
+        left_arm_idx[1] = i;
+      }
+      else if(joint_msg->name[i] == "left_arm_rotate_joint"){
+        left_arm_idx[2] = i;
+      }
+      else if(joint_msg->name[i] == "left_elbow_joint"){
+        left_arm_idx[3] = i;
+      }
+      else if(joint_msg->name[i] == "left_wrist_joint"){
+        left_arm_idx[4] = i;
+      }
+      // left gripper
+      else if(joint_msg->name[i] == "left_gripper_index_joint"){
+        left_gripper_idx[0] = i;
+      }
+      else if(joint_msg->name[i] == "left_gripper_thumb_joint"){
+        left_gripper_idx[1] = i;
+      }     
+    }  
+    // clear flag  
+    firstFlag = 0;
+    ROS_INFO("...done");
+  }  
+
+  // Copy position data to appropriate arrays using the index arrays
+  if(USE_HEAD){
+    for (int i = 0; i < HEAD_SIZE; i++){
+      headArray.data[i] = joint_msg->position[head_idx[i]];
+    }  
+  }   
+  if(USE_RIGHT_ARM){
+    for (int i = 0; i < RIGHT_ARM_SIZE; i++){
+      rightArmArray.data[i] = joint_msg->position[right_arm_idx[i]];
+    }  
+  }
+  if(USE_RIGHT_GRIPPER){
+    for (int i = 0; i < RIGHT_GRIPPER_SIZE; i++){
+      rightGripperArray.data[i] = joint_msg->position[right_gripper_idx[i]];
+    }  
+  }
+  if(USE_LEFT_ARM){
+    for (int i = 0; i < LEFT_ARM_SIZE; i++){
+      leftArmArray.data[i] = joint_msg->position[left_arm_idx[i]];
+    }  
+  }
+  if(USE_LEFT_GRIPPER){
+    for (int i = 0; i < LEFT_GRIPPER_SIZE; i++){
+      leftGripperArray.data[i] = joint_msg->position[left_gripper_idx[i]];
+    }  
+  }  
+  
+  /* old version before indecies
+    // Keeps track of offset in joint_msg array 
   int offset = 0; 
   // Copy position data to appropriate arrays
   if(USE_HEAD){
@@ -131,6 +262,7 @@ void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
       leftGripperArray.data[i] = joint_msg->position[i + offset];
     }  
   }  
+  */  
 }
 // Set array size and initialize to 0's
 void initArrays(){
@@ -183,6 +315,35 @@ void publishArrays(){
   */
 }
 
+void printHeader(){
+  ROS_INFO("\n\n\n");
+  ROS_INFO("\033[32m**********************************************");
+  ROS_INFO("\033[32m*           ROS Translate Node               *");
+  ROS_INFO("\033[32m*                                            *");
+  ROS_INFO("\033[32m* Subscribes to /joint_states and publishes  *");
+  ROS_INFO("\033[32m* seperate, sorted arrays for enabled limbs. *");
+  ROS_INFO("\033[32m*                                            *");
+  ROS_INFO("\033[32m**********************************************");
+  ROS_INFO("  ");
 
+  ROS_INFO("Initializing translate node");
+  ROS_INFO("Set up publisher(s) and subscriber");
+  if(USE_HEAD){
+    //nh.loginfo("Using Head");
+    ROS_INFO("Using Head");
+  }
+  if(USE_RIGHT_ARM){
+    ROS_INFO("Using Right Arm");
+  }
+  if(USE_RIGHT_GRIPPER){
+    ROS_INFO("Using Right Gripper");
+  }
+  if(USE_LEFT_ARM){
+    ROS_INFO("Using Left Arm");
+  }
+  if(USE_LEFT_GRIPPER){
+    ROS_INFO("Using Left Gripper");
+  }     
+}
 
 

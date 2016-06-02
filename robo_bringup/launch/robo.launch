@@ -23,18 +23,49 @@
   </node>
   
   <!-- Run a separate controller for the one sided gripper -->
-  <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+  <!--node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
      <rosparam>
         model: singlesided
         invert: true
         center: 0.0
         pad_width: 0.004
         finger_length: 0.065
-        min_opening: -2.0
-        max_opening: 2.0
+        min_opening: 0.0
+        max_opening: 1.5707
         joint: right_gripper_index_joint
      </rosparam>
-  </node>
+  </node-->
+  <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+     <rosparam>
+        model: dualservo
+        finger_length: 0.2
+        pad_width: 0.004
+        min_opening: 0.0
+        max_opening: 1.0             
+        left_joint: right_gripper_thumb_joint
+        center_l: 0.0
+        invert_l: False        
+        right_joint: right_gripper_index_joint
+        center_r: 0.0        
+        invert_r: Flase
+     </rosparam>
+  </node>  
+  
+  <node name="left_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+     <rosparam>
+        model: dualservo
+        finger_length: 0.065
+        pad_width: 0.004
+        min_opening: 0.0
+        max_opening: 1.0      
+        left_joint: right_gripper_index_joint
+        center_l: 0.0
+        invert_l: False        
+        right_joint: right_gripper_thumb_joint
+        center_r: 0.0        
+        invert_r: Flase
+     </rosparam>
+  </node>      
 
   <!-- Run the main MoveIt executable without trajectory execution >
   <include file="$(find robo_moveit_config)/launch/move_group.launch">
@@ -59,8 +90,7 @@
   <arg name="command_args" value="-d $(find robo_description)/urdf.rviz"/>
   <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="$(arg command_args)" output="screen">    
      <rosparam command="load" file="$(find robo_moveit_config)/config/kinematics.yaml"/>     
-  </node>
-   
+  </node>   
    
    
   <!-- Start all servos in a relaxed state -->

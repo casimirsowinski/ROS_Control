@@ -32,7 +32,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_shouldera_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="orange"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -57,7 +57,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_shoulderb_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="yellow"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -71,7 +71,7 @@
     <joint name="${side}_arm_rotate_joint" type="revolute">
       <axis xyz="0 0 ${reflect}"/>
       <origin xyz="${0.06 * reflect} 0 -0.059" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <limit effort="1000.0" lower="${-pi/2}" upper="${50*pi/180}" velocity="0.5"/>
       <parent link="${side}_arm_shoulderb_link"/>
       <child link="${side}_arm_biceps_link"/>
     </joint>
@@ -82,7 +82,7 @@
         <geometry>
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_biceps_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="green"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -95,8 +95,10 @@
     <!-- J -->
     <joint name="${side}_elbow_joint" type="revolute">
       <axis xyz="-1 0 0"/>      
-      <origin xyz="0 0.029 -0.225" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+      <!--origin xyz="0 0.029 -0.225" rpy="0 0 0"/-->
+      <origin xyz="0 0.029 -0.225" rpy="-0.3 0 0"/>
+      <!--limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/-->
+      <limit effort="1000.0" lower="0.0" upper="0.8727" velocity="0.5"/>
       <parent link="${side}_arm_biceps_link"/>
       <child link="${side}_arm_forearm_link"/>
     </joint>
@@ -107,7 +109,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_forearm_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="blue"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -133,7 +135,7 @@
         <geometry>        
           <mesh filename="package://robo_description/meshes/arm/vis/vis_${side}_hand_03.STL" scale="${scale} ${scale} ${scale}"/>
         </geometry>
-        <material name="indigo"/>
+        <material name="${color}"/>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>

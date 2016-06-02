@@ -46,7 +46,8 @@
     <joint name="${side}_arm_fwd_joint" type="revolute">
       <axis xyz="-1 0 0"/>
       <origin xyz="${0.012 * reflect} 0.005 -0.04" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <!--limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/-->
+      <limit effort="1000.0" lower="${-50*pi/180}" upper="${pi/2}" velocity="0.5"/>
       <parent link="${side}_arm_shouldera_link"/>
       <child link="${side}_arm_shoulderb_link"/>
     </joint>
@@ -71,7 +72,7 @@
     <joint name="${side}_arm_rotate_joint" type="revolute">
       <axis xyz="0 0 ${reflect}"/>
       <origin xyz="${0.06 * reflect} 0 -0.059" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="${-pi/2}" upper="${pi/2}" velocity="0.5"/>
+      <limit effort="1000.0" lower="${-pi/2}" upper="${50*pi/180}" velocity="0.5"/>
       <parent link="${side}_arm_shoulderb_link"/>
       <child link="${side}_arm_biceps_link"/>
     </joint>
@@ -95,8 +96,10 @@
     <!-- J -->
     <joint name="${side}_elbow_joint" type="revolute">
       <axis xyz="-1 0 0"/>      
-      <origin xyz="0 0.029 -0.225" rpy="0 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/>
+      <!--origin xyz="0 0.029 -0.225" rpy="0 0 0"/-->
+      <origin xyz="0 0.029 -0.225" rpy="-0.3 0 0"/>
+      <!--limit effort="1000.0" lower="0.0" upper="${pi/2}" velocity="0.5"/-->
+      <limit effort="1000.0" lower="0.0" upper="0.8727" velocity="0.5"/>
       <parent link="${side}_arm_biceps_link"/>
       <child link="${side}_arm_forearm_link"/>
     </joint>

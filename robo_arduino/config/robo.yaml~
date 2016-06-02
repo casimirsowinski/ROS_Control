@@ -11,25 +11,25 @@ joints: {
   head_pan_joint:            {id:  2, neutral: 512, min_angle:  -90, max_angle: 90},
   head_tilt_joint:           {id:  3, neutral: 512, min_angle:  -45, max_angle: 108},        
   
-  right_arm_base_joint:      {id:  4},
-  right_arm_out_joint:       {id:  5, neutral: 512, min_angle:    0, max_angle: 90},
-  right_arm_fwd_joint:       {id:  6, neutral: 512, min_angle:  -90, max_angle: 90},
-  right_arm_rotate_joint:    {id:  7, neutral: 512, min_angle:  -90, max_angle: 90},
-  right_elbow_joint:         {id:  8, neutral: 512, min_angle:    0, max_angle: 90},
-  right_wrist_joint:         {id:  9, neutral: 512, min_angle:    0, max_angle: 180},    
+  #right_arm_base_joint:      {id:  4},
+  right_arm_out_joint:       {id:  4, neutral: 512, min_angle:    0, max_angle: 90},
+  right_arm_fwd_joint:       {id:  5, neutral: 512, min_angle:  -50, max_angle: 90},
+  right_arm_rotate_joint:    {id:  6, neutral: 512, min_angle:  -90, max_angle: 50},
+  right_elbow_joint:         {id:  7, neutral: 512, min_angle:    0, max_angle: 58},
+  right_wrist_joint:         {id:  8, neutral: 512, min_angle:    0, max_angle: 180},    
   
-  right_gripper_index_joint: {id: 10, neutral: 512},
-  right_gripper_thumb_joint: {id: 11, neutral: 512},    
+  right_gripper_index_joint: {id:  9, neutral: 512},
+  right_gripper_thumb_joint: {id: 10, neutral: 512},    
   
-  left_arm_base_joint:       {id: 12},
-  left_arm_out_joint:        {id: 13, neutral: 512, min_angle:    0, max_angle: 90},
-  left_arm_fwd_joint:        {id: 14, neutral: 512, min_angle:  -90, max_angle: 90},
-  left_arm_rotate_joint:     {id: 15, neutral: 512, min_angle:  -90, max_angle: 90},
-  left_elbow_joint:          {id: 16, neutral: 512, min_angle:    0, max_angle: 90},
-  left_wrist_joint:          {id: 17, neutral: 512, min_angle:    0, max_angle: 180},    
+  #left_arm_base_joint:       {id: 12},
+  left_arm_out_joint:        {id: 11, neutral: 512, min_angle:    0, max_angle: 90},
+  left_arm_fwd_joint:        {id: 12, neutral: 512, min_angle:  -50, max_angle: 90},
+  left_arm_rotate_joint:     {id: 13, neutral: 512, min_angle:  -90, max_angle: 50},
+  left_elbow_joint:          {id: 14, neutral: 512, min_angle:    0, max_angle: 58},
+  left_wrist_joint:          {id: 15, neutral: 512, min_angle:    0, max_angle: 180},    
   
-  left_gripper_index_joint:  {id: 18, neutral: 512},
-  left_gripper_thumb_joint:  {id: 19, neutral: 512}    
+  left_gripper_index_joint:  {id: 16, neutral: 512},
+  left_gripper_thumb_joint:  {id: 17, neutral: 512}    
 }
 
 controllers: {   
@@ -48,7 +48,7 @@ controllers: {
     action_name: right_arm_controller/follow_joint_trajectory,
     type: follow_controller,
     joints: [
-      right_arm_base_joint, 
+      #right_arm_base_joint, 
       right_arm_out_joint, 
       right_arm_fwd_joint, 
       right_arm_rotate_joint, 
@@ -61,7 +61,7 @@ controllers: {
     action_name: left_arm_controller/follow_joint_trajectory, 
     type: follow_controller, 
     joints: [
-      left_arm_base_joint, 
+      #left_arm_base_joint, 
       left_arm_out_joint, 
       left_arm_fwd_joint, 
       left_arm_rotate_joint, 
