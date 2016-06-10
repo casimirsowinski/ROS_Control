@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
   <!-- Set the parameters for the warehouse and run the mongodb server. -->
 
   <!-- The default DB port for moveit (not default MongoDB port to avoid potential conflicts) -->  

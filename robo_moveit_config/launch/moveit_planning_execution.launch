@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
   <!-- The planning and execution components of MoveIt! configured to run -->
   <!-- using the ROS-Industrial interface. -->
  

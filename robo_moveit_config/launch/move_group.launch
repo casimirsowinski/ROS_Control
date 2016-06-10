@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
 
   <include file="$(find robo_moveit_config)/launch/planning_context.launch"/>
 

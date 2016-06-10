@@ -2,7 +2,7 @@
   <name>robo_arm_nav</name>
   <version>0.1.0</version>
 
-  <description>ROS By Example Vol 2 - Arm Navigation</description>
+  <description>Capstone - Arm navigation package</description>
 
   <maintainer email="casimirsowinski@gmail.com">Casimir Sowinski</maintainer>
   <license>BSD</license>

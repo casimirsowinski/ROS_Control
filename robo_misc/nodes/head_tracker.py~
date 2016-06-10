@@ -81,7 +81,7 @@ class HeadTracker():
         
         # What is the name of the camera link?
 	##self.camera_link = rospy.get_param('~camera_link', 'camera_link')
- 	self.camera_link = rospy.get_param('~head_tracker_A_link', 'head_tracker_A_link')	
+ 	self.camera_link = rospy.get_param('~head_tracker_B_link', 'head_tracker_B_link')	
 	#self.camera_link = rospy.get_param('~realsense_link', 'realsense_link')
 
         # Joint speeds are given in radians per second

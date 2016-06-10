@@ -1,25 +1,22 @@
-/*
- * rosserial Servo Control Example
- *
- * This sketch demonstrates the control of hobby R/C servos
- * using ROS and the arduiono
- * 
- * For the full tutorial write up, visit
- * www.ros.org/wiki/rosserial_arduino_demos
- *
- * For more information on the Arduino Servo Library
- * Checkout :
- * http://www.arduino.cc/en/Reference/Servo
- */
+/************************************OLD****************************************
+Package: robo_arduino
+Version: 0.0.1
+Description: This is a test program to figure out how to make an Arduino 
+controller. 
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+**************************************OLD**************************************/
 
-// Check Arduino version
+// Includes
+// Check Arduino version, include the appropriate file
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
  #include <WProgram.h>
 #endif
-
-// Includes
 #include <Servo.h> 
 #include <ros.h>
 #include <string.h>
@@ -46,9 +43,7 @@ std_msgs::Float64 tilt_ang;
 std_msgs::Float64 pan_ang_old;
 std_msgs::Float64 tilt_ang_old;
 std_msgs::Float64 pan_ang_rad;
-
 std_msgs::Float64 tilt_ang_rad;
-
 trajectory_msgs::JointTrajectory angle;
 std_msgs::Float64 joint_ang;
 std_msgs::Float64 joint_ang_old;

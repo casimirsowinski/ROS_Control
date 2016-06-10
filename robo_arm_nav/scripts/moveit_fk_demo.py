@@ -21,6 +21,8 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 import rospy, sys
 import moveit_commander
 from control_msgs.msg import GripperCommand

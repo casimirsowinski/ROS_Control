@@ -1,5 +1,7 @@
 <launch>
-
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
   <!-- This file makes it easy to include the settings for trajectory execution  -->  
 
   <!-- Flag indicating whether MoveIt! is allowed to load/unload  or switch controllers -->

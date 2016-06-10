@@ -1,16 +1,22 @@
-/************************************************************
- * Inmoov ROS calibration program
- * Casimir Sowinski 2016 
- */
+/********************************************************************************
+Package: robo_arduino
+Version: 0.0.1
+Description: This program is used to calibrate joints on the physical robot to 
+tune joint limits and conversion equations. 
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+*******************************************************************************/
 
-// Check Arduino version
+// Includes
+// Check Arduino version, include the appropriate file
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
  #include <WProgram.h>
 #endif
-
-// Includes
 #include <ros.h>
 #include <string.h>
 #include <std_msgs/UInt16.h>
@@ -32,6 +38,8 @@ int D2P_arm_fwd(float);
 int D2P_arm_out(float);
 
 // Init ROS vars
+//****May not need *_old vars,
+//****Turn into an array
 std_msgs::Float64 ang_0;
 std_msgs::Float64 ang_0_old;
 std_msgs::Float64 ang_1;
@@ -40,9 +48,9 @@ std_msgs::Float64 ang_2;
 std_msgs::Float64 ang_2_old;
 std_msgs::Float64 ang_out;
 std_msgs::Float64 ang_out_old;
-
+// Testing vars
 int testAng = 2400;
-int up = 1;
+int up = 1;                   // for test loop
 
 // Init other vars
 #define maestroSerial Serial1
@@ -51,6 +59,7 @@ MiniMaestro maestro(Serial1);
 // Nodes, pubs, and subs
 ros::NodeHandle nh;
 
+// For keyboard control
 ros::Subscriber<geometry_msgs::Twist> sub_teleop("turtle1/cmd_vel", teleop_cb);
 
 void setup() {
@@ -61,7 +70,7 @@ void setup() {
   ang_1_old.data  = 0;
   ang_2.data      = 0;  
   ang_2_old.data  = 0;    
-
+  
   // Setup servos
   maestroSerial.begin(9600);  
   for(int i = 0; i < 2; i++){
@@ -69,17 +78,15 @@ void setup() {
     maestro.setAcceleration(i, 50);
     maestro.setTarget(i, D2P_elbow(0));
   }
-
+  
   // Setup ROS node
-  nh.initNode();
+  nh.initNode();  
   
   // Handle pubs and subs
   nh.subscribe(sub_teleop);  
-
 }
 
 void loop() {
-
   // Cycle between 600 and 2400
   if(up){
     if(testAng < 8000){
@@ -103,7 +110,6 @@ void loop() {
   int len;
   len = sprintf(msg, "cmd: %d", testAng);  
   nh.loginfo(msg);
-
   // Set angle
   maestro.setTarget(0, testAng);
   */
@@ -115,11 +121,7 @@ void loop() {
 
 
 void teleop_cb(const geometry_msgs::Twist& cmd){     
-
-  //std_msgs::Float64 ang_0_del;
-  //std_msgs::Float64 ang_1_del;
-
-
+  // Test limits, why did I put these here?
   const int lim_0_l = 0;
   const int lim_0_h = 58;
   const int lim_1_l = -90;
@@ -127,17 +129,12 @@ void teleop_cb(const geometry_msgs::Twist& cmd){
   const int lim_2_l = -50;
   const int lim_2_h = 90;
   const int lim_out_l = 0;
-  const int lim_out_h = 80;
-   
-  //ang_0_del.data = cmd.angular.z / 2;
-  //ang_1_del.data = cmd.linear.x / 2;  
-  
+  const int lim_out_h = 80;  
+  // Inc angles by commands from tele_op
   ang_0.data += cmd.linear.x / 2;  
   ang_1.data -= cmd.angular.z / 2; 
   ang_2.data += cmd.linear.x / 2;  
   ang_out.data += cmd.linear.x / 2; 
-
-
   // Limit checking
   if (ang_0.data > lim_0_h) 
   { ang_0.data = lim_0_h; }
@@ -151,27 +148,22 @@ void teleop_cb(const geometry_msgs::Twist& cmd){
   { ang_2.data = lim_2_h; }
   if (ang_2.data < lim_2_l) 
   { ang_2.data = lim_2_l; }
-
   if (ang_out.data > lim_out_h) 
   { ang_out.data = lim_out_h; }
   if (ang_out.data < lim_out_l) 
   { ang_out.data = lim_out_l; }
-
-  
   // Send commands to servos 
- // maestro.setTarget(0, D2P_elbow(ang_0.data));
-  maestro.setTarget(1, D2P_arm_rot(ang_1.data));
-  //maestro.setTarget(0, D2P_arm_fwd(ang_2.data));  
+  ///maestro.setTarget(0, D2P_elbow(ang_0.data));
   maestro.setTarget(0, D2P_arm_out(ang_out.data));
-  
-  
+  maestro.setTarget(1, D2P_arm_rot(ang_1.data));
+  ///maestro.setTarget(0, D2P_arm_fwd(ang_2.data));  
+  // Print test data 
   char msg [50];
   int len;      
   //len = sprintf(msg, "elbow:[d: %d, p: %d] rot:[d: %d, p: %d]", (int) ang_0.data, D2P_elbow(ang_0.data), (int) ang_1.data, D2P_arm_rot(ang_1.data));  
   //len = sprintf(msg, "fwd:[d: %d, p: %d] rot:[d: %d, p: %d]", (int) ang_2.data, D2P_arm_fwd(ang_2.data), (int) ang_1.data, D2P_arm_rot(ang_1.data));  
   len = sprintf(msg, "out:[d: %d, p: %d] rot:[d: %d, p: %d]", (int) ang_out.data, D2P_arm_out(ang_out.data), (int) ang_1.data, D2P_arm_rot(ang_1.data));  
-  nh.loginfo(msg);  
-  
+  nh.loginfo(msg);    
   //nh.loginfo("Entered cb");
 }
 
@@ -211,25 +203,6 @@ int D2P_arm_fwd(float ang_deg){
 int D2P_arm_out(float ang_deg){  
   return (int) 2948 + ang_deg * 2090 / 80;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

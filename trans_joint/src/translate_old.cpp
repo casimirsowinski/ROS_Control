@@ -1,10 +1,14 @@
-/*
- * Casimir Sowinski, 2016
- * This node subscribes to /joint_states (sensor_msgs::JointState) and publishes 
- * a Float64MultiArray message for the Arduino node over rosserial
- *
- */
-
+/***********************************OLD*****************************************
+Package: trans_joint
+Version: 0.0.1
+Description: This node subscribes to /joint_states (sensor_msgs::JointState) and 
+publishes multiple Float64MultiArray messages for the Arduino node over rosserial
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+************************************OLD****************************************/
 //----------Dependencies
 #include <stdio.h>
 #include <stdlib.h>

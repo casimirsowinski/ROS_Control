@@ -1,9 +1,14 @@
-/*
- * Casimir Sowinski, 2016
- * This node subscribes to /joint_states (sensor_msgs::JointState) and publishes 
- * a Float64MultiArray message for the Arduino node over rosserial
- *
- */
+/********************************************************************************
+Package: trans_joint
+Version: 0.0.1
+Description: This node subscribes to /joint_states (sensor_msgs::JointState) and 
+publishes multiple Float64MultiArray messages for the Arduino node over rosserial
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+*******************************************************************************/
 
 //----------Dependencies
 #include <stdio.h>
@@ -112,8 +117,10 @@ void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
   
   if(firstFlag){
     ROS_INFO("Initializing index arrays...");
-    int num_elements = sizeof(joint_msg->name)/sizeof(joint_msg->name[0]);
+    //int num_elements = sizeof(joint_msg->name)/sizeof(joint_msg->name[0]);
+    int num_elements = 17; //lol
     
+    ROS_INFO("num_elements: %d", num_elements);
 //    const std::basic_string<char> temp = joint_msg->name[0];
     
     //std::string temp = joint_msg->name[0];
@@ -132,73 +139,93 @@ void joint_cb(const sensor_msgs::JointState::ConstPtr& joint_msg){
     //poop = temp;
     
     std_msgs::String s;
+    /*
     s.data = joint_msg->name[0];        
     char * cstr = new char [s.data.length()+1];
     std::strcpy (cstr, s.data.c_str());
     
-    if(s.data.compare("head_pan_joint")){
+    if(s.data.compare("head_pan_joint") == 0){
       ROS_INFO("success");
     }
     
     ROS_INFO("cstr: %s", cstr);  
     ROS_INFO("ROS string: %s", s.data.c_str());
+    */
     
-    for(int i = 0; i < num_elements; i++){
+    // loop through names, compare them with literals in order and save index of where they are
+    // in joint_states/name array
+    for(int i = 0; i < num_elements; i++){    
+      // Get name at index i
+      s.data = joint_msg->name[i];      
+      
+      ROS_INFO("i: %d, name: %s", i, s.data.c_str());
+              
+      // check if there is a match with the element in name array, save the index in the 
+      // appropriate index array at the correct position
       // head
-      if(joint_msg->name[i] == cstr){
+      if(s.data.compare("torso_head_tele_joint") == 0){
         head_idx[0] = i;
-        ROS_INFO("testttttt");
+        ROS_INFO("tele index: %d", i);
       }
-      else if(joint_msg->name[i] == "head_pan_joint"){
+      else if(s.data.compare("head_pan_joint") == 0){
         head_idx[1] = i;
+        ROS_INFO("pan index: %d", i);
       }
-      else if(joint_msg->name[i] == "head_tilt_joint"){
+      else if(s.data.compare("head_tilt_joint") == 0){
         head_idx[2] = i;
+        ROS_INFO("tilt index: %d", i);
       }
       // right arm
-      else if(joint_msg->name[i] == "right_arm_out_joint"){
+      else if(s.data.compare("right_arm_out_joint") == 0){
         right_arm_idx[0] = i;
+        ROS_INFO("rao index: %d", i);
       }
-      else if(joint_msg->name[i] == "right_arm_fwd_joint"){
+      else if(s.data.compare("right_arm_fwd_joint") == 0){
         right_arm_idx[1] = i;
+        ROS_INFO("raf index: %d", i);
       }
-      else if(joint_msg->name[i] == "right_arm_rotate_joint"){
+      else if(s.data.compare("right_arm_rotate_joint") == 0){
         right_arm_idx[2] = i;
+        ROS_INFO("rar index: %d", i);
       }
-      else if(joint_msg->name[i] == "right_elbow_joint"){
+      else if(s.data.compare("right_elbow_joint") == 0){
         right_arm_idx[3] = i;
+        ROS_INFO("re index: %d", i);
       }
-      else if(joint_msg->name[i] == "right_wrist_joint"){
+      else if(s.data.compare("right_wrist_joint") == 0){
         right_arm_idx[4] = i;
+        ROS_INFO("rw index: %d", i);
       }
       // right gripper
-      else if(joint_msg->name[i] == "right_gripper_index_joint"){
+      else if(s.data.compare("right_gripper_index_joint") == 0){
         right_gripper_idx[0] = i;
+        ROS_INFO("rgi index: %d", i);
       }
-      else if(joint_msg->name[i] == "right_gripper_thumb_joint"){
+      else if(s.data.compare("right_gripper_thumb_joint") == 0){
         right_gripper_idx[1] = i;
+        ROS_INFO("rgt index: %d", i);
       }
       // left arm
-      else if(joint_msg->name[i] == "left_arm_out_joint"){
+      else if(s.data.compare("left_arm_out_joint") == 0){
         left_arm_idx[0] = i;
       }
-      else if(joint_msg->name[i] == "left_arm_fwd_joint"){
+      else if(s.data.compare("left_arm_fwd_joint") == 0){
         left_arm_idx[1] = i;
       }
-      else if(joint_msg->name[i] == "left_arm_rotate_joint"){
+      else if(s.data.compare("left_arm_rotate_joint") == 0){
         left_arm_idx[2] = i;
       }
-      else if(joint_msg->name[i] == "left_elbow_joint"){
+      else if(s.data.compare("left_elbow_joint") == 0){
         left_arm_idx[3] = i;
       }
-      else if(joint_msg->name[i] == "left_wrist_joint"){
+      else if(s.data.compare("left_wrist_joint") == 0){
         left_arm_idx[4] = i;
       }
       // left gripper
-      else if(joint_msg->name[i] == "left_gripper_index_joint"){
+      else if(s.data.compare("left_gripper_index_joint") == 0){
         left_gripper_idx[0] = i;
       }
-      else if(joint_msg->name[i] == "left_gripper_thumb_joint"){
+      else if(s.data.compare("left_gripper_thumb_joint") == 0){
         left_gripper_idx[1] = i;
       }     
     }  

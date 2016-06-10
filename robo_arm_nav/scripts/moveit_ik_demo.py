@@ -21,6 +21,8 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 import rospy, sys
 import moveit_commander
 from moveit_msgs.msg import RobotTrajectory
@@ -39,6 +41,8 @@ class MoveItDemo:
         # Initialize the move group for the right arm
         right_arm = moveit_commander.MoveGroupCommander('right_arm')
                 
+        right_arm.set_end_effector_link('right_gripper_link')        
+                
         # Get the name of the end-effector link
         end_effector_link = right_arm.get_end_effector_link()
                         
@@ -50,13 +54,17 @@ class MoveItDemo:
                 
         # Allow replanning to increase the odds of a solution
         right_arm.allow_replanning(True)
+        #right_arm.allow_replanning(False)
         
         # Allow some leeway in position (meters) and orientation (radians)
-        right_arm.set_goal_position_tolerance(0.01)
-        right_arm.set_goal_orientation_tolerance(0.05)
+        #right_arm.set_goal_position_tolerance(0.01)
+        #right_arm.set_goal_orientation_tolerance(0.05)
+        right_arm.set_goal_position_tolerance(0.1)
+        right_arm.set_goal_orientation_tolerance(0.5)
         
         # Start the arm in the "resting" pose stored in the SRDF file
         right_arm.set_named_target('resting')
+        #right_arm.set_named_target('straight_forward')
         right_arm.go()
         rospy.sleep(2)
                
@@ -66,13 +74,14 @@ class MoveItDemo:
         target_pose = PoseStamped()
         target_pose.header.frame_id = reference_frame
         target_pose.header.stamp = rospy.Time.now()     
-        target_pose.pose.position.x = 0.20
-        target_pose.pose.position.y = -0.1
-        target_pose.pose.position.z = 0.85
-        target_pose.pose.orientation.x = 0.0
-        target_pose.pose.orientation.y = 0.0
-        target_pose.pose.orientation.z = 0.0
-        target_pose.pose.orientation.w = 1.0
+        target_pose.pose.position.x = 0.0
+        target_pose.pose.position.y = 0.4
+        target_pose.pose.position.z = 1
+        target_pose.pose.orientation.x = 0
+        target_pose.pose.orientation.y = 0
+        target_pose.pose.orientation.z = 0
+        target_pose.pose.orientation.w = 1
+        
         
         # Set the start state to the current state
         right_arm.set_start_state_to_current_state()

@@ -1,9 +1,15 @@
-controller_joint_names: [
+# Package: robo_moveit_config
+# Version: 0.0.1
+# Description: holds joint name parameters for integration with industrial_core
+# Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+# License: BSD
+# Repo: https://github.com/casimirsowinski/robo_hand_01.git
+# Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+# Year: 2016controller_joint_names: [
   torso_head_tele_joint, 
   head_pan_joint, 
   head_tilt_joint,
   
-  right_arm_base_joint,
   right_arm_out_joint, 
   right_arm_fwd_joint, 
   right_arm_rotate_joint, 
@@ -13,7 +19,6 @@ controller_joint_names: [
   right_gripper_index_joint,
   right_gripper_thumb_joint,
   
-  left_arm_base_joint, 
   left_arm_out_joint, 
   left_arm_fwd_joint, 
   left_arm_rotate_joint, 

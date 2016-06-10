@@ -1,0 +1,52 @@
+ 
+        while(True):
+					# Set the right arm back to the resting position
+					right_arm_goal  = [0, 0, 0, 0, 0, 0]
+		
+						# Set the left arm back to the resting position            
+					left_arm_goal  = [0, 0, 0, 0, 0, 0]
+		
+						# Re-center the head
+					head_goal = [0, 0.5, 0.2] 
+
+
+					# Create a single-point right arm trajectory with the right_arm_goal as the end-point
+					right_arm_trajectory = JointTrajectory()
+					right_arm_trajectory.joint_names = right_arm_joints
+					right_arm_trajectory.points.append(JointTrajectoryPoint())
+					right_arm_trajectory.points[0].positions = right_arm_goal
+					right_arm_trajectory.points[0].velocities = [0.0 for i in right_arm_joints]
+					right_arm_trajectory.points[0].accelerations = [0.0 for i in right_arm_joints]
+					right_arm_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+
+					# Send the trajectory to the right arm action server
+					rospy.loginfo('Moving the right arm to goal position...')
+
+					# Create an empty trajectory goal
+					right_arm_goal = FollowJointTrajectoryGoal()
+
+					# Set the trajectory component to the goal trajectory created above
+					right_arm_goal.trajectory = right_arm_trajectory
+
+					# Specify zero tolerance for the execution time
+					right_arm_goal.goal_time_tolerance = rospy.Duration(0.5)
+
+					# Send the goal to the action server
+					right_arm_client.send_goal(right_arm_goal)
+
+					# Wait for up to 5 seconds for the motion to complete 
+					right_arm_client.wait_for_result(rospy.Duration(5.0))
+
+					# Set a goal configuration for the right arm
+					right_arm_goal  = [0.1, 0.2, -0.2, 0.9, 0.9]
+
+					# Set a goal configuration for the left arm
+					left_arm_goal  = [0.1, 0.2, -0.2, 0.9, 0.9]
+	
+					# Set a goal configuration for the head
+					head_goal = [0.05, 0, -0.6]
+
+					# Create a single-point right arm trajectory with the right_arm_goal as the end-point
+					right_arm_trajectory = JointTrajectory()
+					right_arm_trajectory.joint_names = right_arm_joints
+					right_arm_trajectory.points.append(JointTrajectoryPoint())

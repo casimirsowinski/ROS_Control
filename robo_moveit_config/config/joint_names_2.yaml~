@@ -3,6 +3,7 @@ head_controller_joint_names:
   - head_pan_joint
   - head_tilt_joint
 right_arm_controller_joint_names:
+  - right_arm_base_joint
   - right_arm_out_joint
   - right_arm_fwd_joint
   - right_arm_rotate_joint
@@ -12,6 +13,7 @@ right_gripper_controller_joint_names:
   - right_gripper_index_joint
   - right_gripper_thumb_joint
 left_arm_controller_joint_names:
+  - left_arm_base_joint
   - left_arm_out_joint
   - left_arm_fwd_joint
   - left_arm_rotate_joint

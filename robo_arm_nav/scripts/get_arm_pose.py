@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 """
-
 Display the current joint positions of the arm in kinematic order of the links
-
 """
 
 import rospy, sys

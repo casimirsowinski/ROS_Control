@@ -1,3 +1,16 @@
+# Package: robo_arduino
+# Version: 0.0.1
+# Description: holds parameters for joints, controllers, limits, etc.
+# Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+# License: BSD
+# Repo: https://github.com/casimirsowinski/robo_hand_01.git
+# Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+# Year: 2016
+
+#********************************************************************
+#**************************OLD, DON'T USE****************************
+#********************************************************************
+
 port: /dev/ttyACM0
 baud: 1000000
 rate: 100

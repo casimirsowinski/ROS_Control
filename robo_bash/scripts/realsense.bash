@@ -1,4 +1,6 @@
 #!/bin/bash
+# Casimir Sowinski, 2016
+# This bash script runs launch files with terminal window control
 
 # Colors
 GREEN='\033[0;32m'	# Green

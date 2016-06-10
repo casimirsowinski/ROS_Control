@@ -26,6 +26,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Modified for InMoov capstone program
+
 """
 Usage: tuck_arm.py
   Tucks the robot arm (does not perform collision avoidance)
@@ -43,7 +45,7 @@ class TuckArm:
                    'right_arm_rotate_joint',
                    'right_elbow_joint',
                    'right_wrist_joint']
-    tucked  = [0.2, 0.0, -1.5, 1.57, 1.57]
+    tucked  = [0.2, 0.0, -1.4, 1.57, 1.57]
 
     def __init__(self):
         rospy.loginfo("Waiting for right arm_controller...")
@@ -83,3 +85,6 @@ if __name__ == "__main__":
     rospy.init_node("tuck_my_arm")
     t = TuckArm()
     t.tuck_arm()
+    
+    
+    

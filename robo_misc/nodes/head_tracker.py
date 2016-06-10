@@ -23,6 +23,8 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64

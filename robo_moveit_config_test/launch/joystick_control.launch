@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
   <!-- See moveit_ros/visualization/doc/joystick.rst for documentation -->
 
   <arg name="dev" default="/dev/input/js0" />

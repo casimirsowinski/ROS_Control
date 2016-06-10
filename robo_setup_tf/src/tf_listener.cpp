@@ -1,3 +1,15 @@
+/********************************************************************************
+Package: robo_setup_tf
+Version: 0.0.1
+Description: This program was going to be used to try tf trees together and is 
+no longer being used.
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+*******************************************************************************/
+
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
 #include <tf/transform_listener.h>

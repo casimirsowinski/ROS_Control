@@ -26,6 +26,8 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 """
 Usage: tuck_arm.py
   Tucks the robot arm (does not perform collision avoidance)
@@ -83,3 +85,6 @@ if __name__ == "__main__":
     rospy.init_node("tuck_my_arm")
     t = TuckArm()
     t.tuck_arm()
+    
+    
+    

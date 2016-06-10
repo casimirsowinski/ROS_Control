@@ -1,18 +1,22 @@
+/************************************OLD****************************************
+Package: robo_arduino
+Version: 0.0.3
+Description: This program subscribes to tele_op and controls a pan/tilt camera 
+gimbal and updates joint_states/RViz. 
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+**************************************OLD**************************************/
 
-
-/*
- * Arduino/ROS Interface Program
- * Casimir Sowinski, Alex Renaud, 2016
- */
-
-// Check Arduino version
+// Includes
+// Check Arduino version, include the appropriate file
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
  #include <WProgram.h>
 #endif
-
-// Includes
 #include <ros.h>
 #include <string.h>
 #include <std_msgs/UInt16.h>

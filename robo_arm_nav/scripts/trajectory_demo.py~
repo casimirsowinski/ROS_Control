@@ -21,6 +21,8 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 import rospy
 import actionlib
 
@@ -71,7 +73,7 @@ class TrajectoryDemo():
             left_arm_goal  = [0.1, 0.2, -0.2, 1.3, 1.6]
                         
             # Set a goal configuration for the head
-            head_goal = [0.1, 0, -0.6]
+            head_goal = [0.05, 0, -0.6]
     
         # Connect to the right arm trajectory action server
         rospy.loginfo('Waiting for right arm trajectory controller...')

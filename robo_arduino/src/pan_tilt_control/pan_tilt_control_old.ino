@@ -1,17 +1,18 @@
-/*
- * rosserial Servo Control Example
- *
- * This sketch demonstrates the control of hobby R/C servos
- * using ROS and the arduiono
- * 
- * For the full tutorial write up, visit
- * www.ros.org/wiki/rosserial_arduino_demos
- *
- * For more information on the Arduino Servo Library
- * Checkout :
- * http://www.arduino.cc/en/Reference/Servo
- */
+/************************************OLD****************************************
+Package: robo_arduino
+Version: 0.0.1
+Description: This program subscribes to tele_op and controls a pan/tilt camera 
+gimbal and updates joint_states/RViz.
+controller. 
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+**************************************OLD**************************************/
 
+// Includes
+// Check Arduino version, include the appropriate file
 // Check Arduino version
 #if (ARDUINO >= 100)
  #include <Arduino.h>

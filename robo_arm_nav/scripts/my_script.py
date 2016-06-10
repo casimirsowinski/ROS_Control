@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 
 """
-  robo hand stuff
-  
+Package: robo_arm_nav
+Version: 0.0.1
+Description: This is a test script that uses the MoveIt! API to have InMoov go through a 
+few simple actions
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016  
 """
 
 import rospy, sys
@@ -22,8 +29,7 @@ class MoveItDemo:
     GRIPPER_NEUTRAL = [0.02, 0.02]
     TEST = 0.0
     
-    
-    
+    GRIPPER_TEST = 0.05    
     
     # Connect to the right_arm move group
     right_arm = moveit_commander.MoveGroupCommander('right_arm')
@@ -56,7 +62,7 @@ class MoveItDemo:
     rospy.loginfo("1")
     
     # Set the gripper target to neutral position using a joint value target
-    right_gripper.set_joint_value_target([0.01, 0.01])
+    right_gripper.set_joint_value_target(0.05)
     
     rospy.loginfo("2")    
     
@@ -86,12 +92,6 @@ class MoveItDemo:
     
     # Save this configuration for later
     right_arm.remember_joint_values('saved_config', joint_positions)
-    
-    
-    
-    
-        
-    
     
     #------
     # Cleanly shut down MoveIt

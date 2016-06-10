@@ -1,4 +1,8 @@
 <launch>
+  <!-- Launch file for testing Arduino controller integration
+       Casimir Sowinski, 2016
+  -->
+
    <!-- Make sure we are not using simulated time -->
    <param name="/use_sim_time" value="false" />
   
@@ -38,7 +42,7 @@
    </node>
    
    <!-- Start all servos in a relaxed state -->
-   <!--node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)" /-->
+   <node pkg="rbx2_dynamixels" type="arbotix_relax_all_servos.py" name="relax_all_servos" unless="$(arg sim)" />
    
    <!-- Load diagnostics -->
    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" clear_params="true" unless="$(arg sim)">

@@ -21,6 +21,8 @@
     http://www.gnu.org/licenses/gpl.html
 """
 
+# Modified for Intel capstone program by Casimir Sowinski, 2016
+
 import rospy
 import sys
 from visualization_msgs.msg import Marker
@@ -107,14 +109,14 @@ class Pub3DTarget():
         while not rospy.is_shutdown():
             # Update the target position at the appropriate intervals
             if timer == 0.0 or timer > self.r_move_target:
-                timer = 0.0
-		target.pose.position.x = 0.0		
-		target.pose.position.y = 1.0
-		target.pose.position.z = 1.0
-                #target.pose.position.x = 0.0 + 0.1 * abs(math.cos(theta))
-                #target.pose.position.y = -1 - 0.2 * math.sin(theta)
-                target.pose.position.z = 0.7 + 0.3 * abs(math.cos(theta))
-		theta += self.speed / self.move_target_rate 
+				timer = 0.0
+				target.pose.position.x = 0.22	
+				target.pose.position.y = 0.12
+				target.pose.position.z = 0.67
+				#target.pose.position.x = 0.0 + 0.1 * abs(math.cos(theta))
+				#target.pose.position.y = -1 - 0.2 * math.sin(theta)
+				#target.pose.position.z = 0.7 + 0.3 * abs(math.cos(theta))
+				theta += self.speed / self.move_target_rate 
                             
             now = rospy.Time.now()
                     

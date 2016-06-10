@@ -1,16 +1,23 @@
-/*
- * Arduino/ROS Interface Program
- * Casimir Sowinski, 2016
- */
+/************************************OLD****************************************
+Package: robo_arduino
+Version: 0.0.1
+Description: This program subscribes to tele_op and controls a pan/tilt camera 
+gimbal and updates joint_states/RViz.
+controller. 
+Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+License: BSD
+Repo: https://github.com/casimirsowinski/robo_hand_01.git
+Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+Year: 2016
+**************************************OLD**************************************/
 
-// Check Arduino version
+// Includes
+// Check Arduino version, include the appropriate file
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
  #include <WProgram.h>
 #endif
-
-// Includes
 #include <ros.h>
 #include <string.h>
 #include <std_msgs/UInt16.h>
@@ -18,9 +25,7 @@
 #include <sensor_msgs/JointState.h>
 #include <std_msgs/Float64.h>
 #include <geometry_msgs/Twist.h>
-
 #include <Servo.h> 
-
 #include <PololuMaestro.h>
 /*#ifdef SERIAL_PORT_HARDWARE_OPEN
   #define maestroSerial SERIAL_PORT_HARDWARE_OPEN
@@ -104,8 +109,7 @@ void setup(){
   nh.advertise(pan);
   nh.advertise(tilt);
   //nh.advertise(chatter);
-  //nh.advertise(state);
-  
+  //nh.advertise(state);  
 }
 
 void teleop_cb(const geometry_msgs::Twist& cmd){    

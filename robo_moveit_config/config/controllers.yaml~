@@ -1,10 +1,18 @@
+# Package: robo_moveit_config
+# Version: 0.0.1
+# Description: holds parameters controllers
+# Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+# License: BSD
+# Repo: https://github.com/casimirsowinski/robo_hand_01.git
+# Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+# Year: 2016
 controller_list:  
   - name: right_arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
     joints:
-      - right_arm_base_joint
+      #- right_arm_base_joint
       - right_arm_out_joint
       - right_arm_fwd_joint
       - right_arm_rotate_joint
@@ -22,7 +30,7 @@ controller_list:
     type: FollowJointTrajectory
     default: true
     joints:
-      - left_arm_out_joint
+      #- left_arm_out_joint
       - left_arm_out_joint
       - left_arm_fwd_joint
       - left_arm_rotate_joint

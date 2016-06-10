@@ -1,4 +1,7 @@
 <launch>
+  <!-- Launch file MoveIt! API
+       Casimir Sowinski, 2016
+  -->
   <arg name="moveit_controller_manager"
        default="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
   <param name="moveit_controller_manager"

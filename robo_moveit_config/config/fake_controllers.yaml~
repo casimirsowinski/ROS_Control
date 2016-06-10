@@ -1,3 +1,11 @@
+# Package: robo_moveit_config
+# Version: 0.0.1
+# Description: holds parameters controllers
+# Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+# License: BSD
+# Repo: https://github.com/casimirsowinski/robo_hand_01.git
+# Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+# Year: 2016
 controller_list:
   - name: fake_head_controller
     joints:
@@ -6,7 +14,7 @@ controller_list:
       - head_tilt_joint
   - name: fake_right_arm_controller
     joints:
-      - right_arm_base_joint
+      #- right_arm_base_joint
       - right_arm_out_joint
       - right_arm_fwd_joint
       - right_arm_rotate_joint
@@ -18,7 +26,7 @@ controller_list:
       - right_gripper_thumb_joint
   - name: fake_left_arm_controller
     joints:
-      - left_arm_base_joint
+      #- left_arm_base_joint
       - left_arm_out_joint
       - left_arm_fwd_joint
       - left_arm_rotate_joint

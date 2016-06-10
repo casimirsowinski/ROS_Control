@@ -38,7 +38,7 @@
   <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
      <rosparam>
         model: dualservo
-        finger_length: 0.1
+        finger_length: 0.2
         pad_width: 0.004
         min_opening: 0.0
         max_opening: 1.0             

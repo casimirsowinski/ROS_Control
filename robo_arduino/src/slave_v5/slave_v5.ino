@@ -2,7 +2,7 @@
  * Bluetooth slave driver for Power Glove controller for InMoov 
  * arm via Pololu motor driver
  * 
- * Melih Erdrogan, Alex Renaud, Casimir Sowinski
+ * Casimir Sowinski, Melih Erdrogan, Alex Renaud
  * 11/01/2015 
  *****************************************************************/
 

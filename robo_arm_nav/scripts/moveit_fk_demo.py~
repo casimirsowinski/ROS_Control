@@ -34,7 +34,7 @@ class MoveItDemo:
         rospy.init_node('moveit_demo', anonymous=True)
         
         GRIPPER_OPEN = [0.05]
-        GRIPPER_CLOSED = [-0.03]
+        GRIPPER_CLOSED = [0.00]
         GRIPPER_NEUTRAL = [0.01]
  
         # Connect to the right_arm move group

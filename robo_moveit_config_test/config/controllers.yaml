@@ -1,4 +1,11 @@
-controller_list:  
+# Package: robo_moveit_config
+# Version: 0.0.1
+# Description: holds parameters controllers
+# Maintainer: Casimir Sowinski, "casimirsowinski@gmail.com"
+# License: BSD
+# Repo: https://github.com/casimirsowinski/robo_hand_01.git
+# Author: Casimir Sowinski, "casimirsowinski@gmail.com"
+# Year: 2016controller_list:  
   - name: right_arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
