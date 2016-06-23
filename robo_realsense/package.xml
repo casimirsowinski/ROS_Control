@@ -1,9 +1,16 @@
 <?xml version="1.0"?>
 <package>
   <name>robo_realsense</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The robo_realsense package</description>
 
+  <!-- Originally written by -->
+  <maintainer email="amit.moran@intel.com">Amit Moran</maintainer>
+  <license>See license attached.</license>
+  <url type="website">https://github.com/PercATI/RealSense-ROS</url>
+  <author email="amit.moran@intel.com">Amit Moran</author>
+
+  <!-- Modified version -->
   <maintainer email="casimirsowinski@gmail.com">Casimir Sowinski</maintainer>
   <license>BSD</license>
   <url type="repository">https://github.com/casimirsowinski/robo_hand_01.git</url>
@@ -24,5 +31,9 @@
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
+
+  <export>
+  	<nodelet plugin="${prefix}/r200_nodelet_plugins.xml" />
+  </export>
 
 </package>

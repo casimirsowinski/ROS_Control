@@ -1,6 +1,6 @@
 <launch>
   <!-- Launch file for Realsense integration into Intel capstone project
-       Casimir Sowinski, 2016
+       Modified by Casimir Sowinski, 2016
   -->
   
   <arg name="cHeight" default="480" />
